@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BuildRadiator</RootNamespace>
     <AssemblyName>BuildRadiator</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
@@ -149,8 +149,10 @@
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
+    <Content Include="App_Data\messageconf.json" />
     <None Include="Properties\PublishProfiles\Bart.pubxml" />
     <Content Include="Scripts\angular-messages.min.js.map" />
+    <None Include="Properties\PublishProfiles\cph-build-radiator.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_en-gb.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -164,6 +166,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\BuildController.cs" />
+    <Compile Include="Helpers\MessageConfiguration.cs" />
+    <Compile Include="Helpers\TileConfiguration.cs" />
     <Compile Include="Model\Tiles\ClockTileConfig.cs" />
     <Compile Include="Model\Tiles\ClockTile.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -183,10 +187,11 @@
     <Compile Include="Model\Tiles\MessageTileConfig.cs" />
     <Compile Include="Model\Tiles\ProjectTile.cs" />
     <Compile Include="Model\Message.cs" />
-    <Compile Include="Model\Tiles\ProjectTileConfig.cs" />
+    <Compile Include="Model\Tiles\BuildDefinition.cs" />
     <Compile Include="Model\Tiles\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Authentication\TeamCityAuthentication.cs" />
+    <Compile Include="Services\BuildService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -195,6 +200,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="App_Data\tileconf.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
