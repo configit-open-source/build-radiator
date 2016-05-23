@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace BuildRadiator.Controllers {
+namespace Configit.BuildRadiator.Controllers {
   [Authorize]
   public class HomeController: Controller {
     public ActionResult Index() {

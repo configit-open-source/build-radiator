@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BuildRadiator.Model.Builds {
+namespace Configit.BuildRadiator.Model.Builds {
   public class Build {
     public string Name { get; set; }
     public string BranchName { get; set; }

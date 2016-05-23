@@ -1,4 +1,4 @@
-﻿namespace BuildRadiator.Model {
+﻿namespace Configit.BuildRadiator.Model {
   public abstract class Tile {
     public abstract string Type { get; }
 

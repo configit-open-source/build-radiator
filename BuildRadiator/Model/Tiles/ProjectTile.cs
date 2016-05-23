@@ -1,4 +1,4 @@
-﻿namespace BuildRadiator.Model {
+﻿namespace Configit.BuildRadiator.Model {
   public class ProjectTile: Tile<ProjectTileConfig> {
     public override string Type {
       get { return "project"; }

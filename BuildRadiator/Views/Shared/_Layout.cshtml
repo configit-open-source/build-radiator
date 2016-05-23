@@ -3,17 +3,18 @@
 <html lang="en" ng-app="@ViewBag.AngularApp">
 <head>
   <title>@ViewBag.Title</title>
-  <base href="@Url.Content( "~/" )" />
-  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"  />
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic" />
+  <base href="@Url.Content( "~/" )"/>
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"/>
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"/>
   @Styles.Render( "~/content/styles" )
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body layout="column" layout-fill ng-controller="@ViewBag.AngularController as ctrl" class="@( !string.IsNullOrWhiteSpace( ViewBag.AngularApp ) ? "ng-cloak" : "" )">
-  @RenderBody()
+@RenderBody()
 
-  @Scripts.Render( "~/bundles/scripts" )
-  @Scripts.Render( "~/bundles/application" )
+@Scripts.Render( "~/bundles/scripts" )
+@RenderSection( "AdditionalScripts", false )
+@Scripts.Render( "~/bundles/application" )
 </body>
 </html>

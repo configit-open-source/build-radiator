@@ -1,4 +1,4 @@
-﻿namespace BuildRadiator.Model {
+﻿namespace Configit.BuildRadiator.Model {
   public class MessageTile: Tile<MessageTileConfig> {
     public override string Type {
       get { return "message"; }

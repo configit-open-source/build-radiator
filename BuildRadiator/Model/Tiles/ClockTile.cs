@@ -1,4 +1,4 @@
-namespace BuildRadiator.Model {
+namespace Configit.BuildRadiator.Model {
   public class ClockTile: Tile<ClockTileConfig> {
     public override string Type {
       get { return "clock"; }

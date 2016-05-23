@@ -1,32 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Web.Http;
-using BuildRadiator.Model;
+using Configit.BuildRadiator.Model;
 
-namespace BuildRadiator.Controllers {
-  public class MessageController: ApiController {
+namespace Configit.BuildRadiator.Helpers {
+  public class MessageService {
     private static readonly IDictionary<string, Message> Messages;
-    private static readonly IDictionary<string, Func<Message>> DynamicMessages;
 
-    static MessageController() {
+    static MessageService() {
       var standardMessage = new[] { "standard" };
 
-      Messages = new Dictionary<string, Message> {
-        { "lastRelease", new Message( BuildMessage( "2.4.2", "Xenon Patch 2", "07 Jan 2016" ), standardMessage ) },
-        { "sprintTheme", new Message( BuildTheme( "Logging &amp; Traceability", "Provide detailed information of changes within Ace to allow investigations into what happened and when"), "fancy" ) }
-      };
-
-      DynamicMessages = new Dictionary<string, Func<Message>>();
+      Messages = new[] {
+        new Message( "lastRelease", BuildMessage( "2.4.2", "Xenon Patch 2", "07 Jan 2016" ), standardMessage ),
+        new Message( "sprintTheme", BuildTheme( "Logging &amp; Traceability", "Provide detailed information of changes within Ace to allow investigations into what happened and when"), "fancy" )
+      }.ToDictionary( m => m.Key );
     }
+    
+    public Message Get( string messageKey ) {
+      if ( Messages.ContainsKey( messageKey ) ) {
+        return Messages[messageKey];
+      }
 
+      throw new ArgumentOutOfRangeException( nameof( messageKey ), "Message not found" );
+    }
+    
     private static string BuildTheme( string title, string summary ) {
       var sb = new StringBuilder();
 
       sb.Append( "<div class=\"title\">" );
       sb.Append( title );
       sb.Append( "</div>" );
-      
+
       sb.Append( "<div class=\"quote\">" );
       sb.Append( summary );
       sb.Append( "</div>" );
@@ -50,18 +55,6 @@ namespace BuildRadiator.Controllers {
       }
 
       return sb.ToString();
-    }
-
-    public Message Get( string id ) {
-      if ( Messages.ContainsKey( id ) ) {
-        return Messages[id];
-      }
-
-      if ( DynamicMessages.ContainsKey( id ) ) {
-        return DynamicMessages[id]();
-      }
-
-      return new Message( "UNKNOWN: " + id );
     }
   }
 }

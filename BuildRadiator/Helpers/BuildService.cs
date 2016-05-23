@@ -1,25 +1,28 @@
 ﻿using System;
-using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web.Http;
 using System.Xml;
-using BuildRadiator.Helpers;
-using BuildRadiator.Model.Builds;
 
-namespace BuildRadiator.Controllers {
-  [Authorize]
-  public class BuildController: ApiController {
+using Configit.BuildRadiator.Model.Builds;
+
+namespace Configit.BuildRadiator.Helpers {
+  public class BuildService {
+    private readonly string _baseUrl;
+    private readonly string _authenticationHeader;
+
+    public BuildService( string baseUrl, string authenticationHeader ) {
+      _baseUrl = baseUrl.TrimEnd( '/' );
+      _authenticationHeader = authenticationHeader;
+    }
 
     private HttpClient CreateClient() {
-      var user = (TeamCityPrincipal) User;
+      var client = new HttpClient {
+        BaseAddress = new Uri( $"{_baseUrl}/httpAuth/app/rest/latest/" )
+      };
 
-      var client = new HttpClient();
-      client.BaseAddress = new Uri( ConfigurationManager.AppSettings["TeamCityUrl"].TrimEnd( '/' ) + "/httpAuth/app/rest/latest/" );
-      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Basic", user.AuthenticationHeader );
+      client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Basic", _authenticationHeader );
 
       return client;
     }
