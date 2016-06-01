@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="BuildRadiator.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="Configit.BuildRadiator.Global" Language="C#" %>

@@ -1,4 +1,4 @@
-﻿namespace BuildRadiator.Model.Builds {
+﻿namespace Configit.BuildRadiator.Model.Builds {
   public enum BuildStatus {
     Unknown,
     Success,

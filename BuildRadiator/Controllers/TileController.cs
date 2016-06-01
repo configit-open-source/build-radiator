@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using BuildRadiator.Model;
 
-namespace BuildRadiator.Controllers {
+using Configit.BuildRadiator.Model;
+
+namespace Configit.BuildRadiator.Controllers {
   public class TileController: ApiController {
     private static readonly IReadOnlyCollection<Tile> Tiles;
 

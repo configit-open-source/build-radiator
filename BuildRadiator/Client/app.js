@@ -1,7 +1,7 @@
 ﻿( function() {
   'use strict';
 
-  angular.module( 'BuildRadiator', ['ngMaterial', 'ngMessages'] );
+  angular.module( 'BuildRadiator', ['ngMaterial', 'ngMessages', 'ngynServerConnection', 'ngynSignalRServerConnectionBackend'] );
 
   angular.module( 'BuildRadiator' ).config( ['$httpProvider', '$provide', function( $httpProvider, $provide ) {
 

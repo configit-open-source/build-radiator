@@ -13,7 +13,7 @@ using System.Web.Http.Filters;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace BuildRadiator.Helpers {
+namespace Configit.BuildRadiator.Helpers {
   internal class TeamCityAuthentication: AuthorizeAttribute, IAuthenticationFilter {
     public static IDictionary<string, string> AuthenticationHeaders { get; private set; }
 

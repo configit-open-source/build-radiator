@@ -3,58 +3,67 @@
 
   var module = angular.module( 'BuildRadiator' );
 
-  module.controller( 'DashboardController', ['$http', '$scope', '$interval', '$log', 'TileConfiguration', 'BuildService', 'MessageService', function( $http, $scope, $interval, $log, TileConfiguration, BuildService, MessageService ) {
+  module.controller( 'DashboardController', ['$scope', '$log', '$sce', 'TileConfiguration', 'BuildHub', 'MessageHub', function( $scope, $log, $sce, TileConfiguration, BuildHub, MessageHub ) {
     var self = this;
-    var timer = null;
-    
+
     self.committerLimit = 11;
 
-    function refreshProject( tile ) {
-      BuildService.get( tile.config.buildName, tile.config.branchName ).then( function( project ) {
-        delete tile.error;
-        tile.project = project;
-      }, function( error ) {
-        tile.error = error;
-        $log.error( error );
+    function onMessageUpdate( message ) {
+      var tile = self.tiles.find( function( tile ) {
+        return tile.type === 'message'
+          && tile.config.messageKey === message.key;
+      } );
+
+      if ( !tile ) {
+        return;
+      }
+
+      message.contentHtml = $sce.trustAsHtml( message.content );
+
+      tile.message = message;
+    };
+
+    function onProjectUpdate( build ) {
+      var tile = self.tiles.find( function( tile ) {
+        return tile.type === 'project'
+          && tile.config.buildName === build.name
+          && tile.config.branchName === build.branchName;
+      } );
+
+      if ( !tile ) {
+        $log.error( 'UNKNOWN PROJECT', build );
+        return;
+      }
+
+      tile.project = build;
+    };
+
+    function registerProjects() {
+      self.tiles.filter( function( t ) {
+        return t.type === 'project';
+      } ).forEach( function( tile ) {
+        BuildHub.server.register( tile.config.buildName, tile.config.branchName );
       } );
     }
 
-    function refreshMessage( tile ) {
-      MessageService.get( tile.config.messageKey ).then( function( message ) {
-        delete tile.error;
-        tile.message = message;
-      }, function( error ) {
-        tile.error = error;
-        $log.error( error );
+    function registerMessages() {
+      self.tiles.filter( function( t ) {
+        return t.type === 'message';
+      } ).forEach( function( tile ) {
+        MessageHub.server.get( tile.config.messageKey );
       } );
     }
-
-    function refresh() {
-      self.lastUpdated = new Date();
-      angular.forEach( self.tiles, function( tile ) {
-        switch ( tile.type ) {
-          case 'project':
-            refreshProject( tile );
-            break;
-          case 'message':
-            refreshMessage( tile );
-            break;
-        }
-      } );
-    }
-
-    function startRefreshTimer() {
-      refresh();
-      timer = $interval( refresh, 10000 );
-    }
-
-    $scope.$on( '$destroy', function() {
-      $interval.cancel( timer );
-    } );
 
     TileConfiguration.get().then( function( tiles ) {
       self.tiles = tiles;
-      startRefreshTimer();
+
+      BuildHub.connect( $scope, {
+        update: onProjectUpdate
+      } ).done( registerProjects );
+
+      MessageHub.connect( $scope, {
+        update: onMessageUpdate
+      } ).done( registerMessages );
     } );
   }] );
 

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace BuildRadiator.Helpers {
+namespace Configit.BuildRadiator.Helpers {
   public static class XmlNodeExtensions {
     public static string GetInnerText( this XmlNode node, string selector, string defaultValue = null) {
       if ( node == null ) {

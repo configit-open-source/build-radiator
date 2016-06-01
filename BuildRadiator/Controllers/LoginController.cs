@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using BuildRadiator.Helpers;
 
-namespace BuildRadiator.Controllers {
+using Configit.BuildRadiator.Helpers;
+
+namespace Configit.BuildRadiator.Controllers {
   [AllowAnonymous]
   public class LoginController: Controller {
     public ActionResult Index() {

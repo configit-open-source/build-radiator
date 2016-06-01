@@ -5,13 +5,15 @@ using System.Web.Http.Filters;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using BuildRadiator.Helpers;
+using Configit.BuildRadiator.Helpers;
+using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using IAuthorizationFilter = System.Web.Mvc.IAuthorizationFilter;
+using IDependencyResolver = Microsoft.AspNet.SignalR.IDependencyResolver;
 
-namespace BuildRadiator {
+namespace Configit.BuildRadiator {
   public class Global: HttpApplication {
 
     protected void Application_Start( object sender, EventArgs e ) {
@@ -19,8 +21,13 @@ namespace BuildRadiator {
 
       ConfigureWebApi( GlobalConfiguration.Configuration, authentication );
       ConfigureMvc( GlobalFilters.Filters, authentication );
+      ConfigureSignalR( GlobalHost.DependencyResolver );
       ConfigureBundles( BundleTable.Bundles );
       ConfigureRoutes( RouteTable.Routes );
+    }
+
+    private void ConfigureSignalR( IDependencyResolver configuration ) {
+      configuration.Register( typeof( JsonSerializer ), () => SignalRJsonSerializer.Instance );
     }
 
     private static void ConfigureMvc( GlobalFilterCollection filters, IAuthorizationFilter authenticationFilter ) {
@@ -52,11 +59,14 @@ namespace BuildRadiator {
       // Library scripts
       var scriptBundle = new ScriptBundle( "~/bundles/scripts" )
         .Include( "~/Scripts/jquery-{version}.js" )
+        .Include( "~/Scripts/jquery.signalR-{version}.js" )
         .Include( "~/Scripts/angular.js" )
         .Include( "~/Scripts/moment/moment.js" )
         .Include( "~/Scripts/moment/moment-timezone-with-data-2010-2020.js" )
         .IncludeDirectory( "~/Scripts", "*.js" )
-        .Include( "~/Scripts/i18n/angular-locale_en-gb.js" );
+        .Include( "~/Scripts/i18n/angular-locale_en-gb.js" )
+        .Include( "~/Scripts/ngyn/ngyn.js" )
+        .Include( "~/Scripts/ngyn/ngyn-server-connection.js" );
 
       // Angular scripts
       var appBundle = new ScriptBundle( "~/bundles/application" )
@@ -78,16 +88,16 @@ namespace BuildRadiator {
 
       // Web Api Routes
       routes.MapHttpRoute(
-        name : "DefaultApi",
-        routeTemplate : "api/{controller}/{id}",
-        defaults : new { id = RouteParameter.Optional }
+        name: "DefaultApi",
+        routeTemplate: "api/{controller}/{id}",
+        defaults: new { id = RouteParameter.Optional }
       );
 
       // MVC Routes
       routes.MapRoute(
-        name : "Default",
-        url : "{controller}/{action}/{id}",
-        defaults : new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+        name: "Default",
+        url: "{controller}/{action}/{id}",
+        defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
       );
     }
   }

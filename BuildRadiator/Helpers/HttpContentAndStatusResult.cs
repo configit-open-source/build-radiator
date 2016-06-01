@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using System.Web.Mvc;
 
-namespace BuildRadiator.Helpers {
+namespace Configit.BuildRadiator.Helpers {
   /// <summary>
   /// Class to return an http status code and content (based on ContentResult and HttpStatusCodeResult)
   /// </summary>
@@ -24,7 +24,7 @@ namespace BuildRadiator.Helpers {
 
     public override void ExecuteResult( ControllerContext context ) {
       if ( context == null ) {
-        throw new ArgumentNullException( "context" );
+        throw new ArgumentNullException( nameof( context ) );
       }
 
       var response = context.HttpContext.Response;

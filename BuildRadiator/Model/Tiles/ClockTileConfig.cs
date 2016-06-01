@@ -1,4 +1,4 @@
-﻿namespace BuildRadiator.Model {
+﻿namespace Configit.BuildRadiator.Model {
   public class ClockTileConfig {
     public string Timezone { get; set; }
   }

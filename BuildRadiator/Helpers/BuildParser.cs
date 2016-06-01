@@ -2,9 +2,10 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Xml;
-using BuildRadiator.Model.Builds;
 
-namespace BuildRadiator.Helpers {
+using Configit.BuildRadiator.Model.Builds;
+
+namespace Configit.BuildRadiator.Helpers {
   public class BuildParser {
     private static readonly Regex UsernameRegEx = new Regex( "<([^>]*)>$", RegexOptions.Compiled );
 
@@ -14,13 +15,13 @@ namespace BuildRadiator.Helpers {
 
     public BuildParser( XmlNode buildInfo, XmlNode investigationInfo, XmlDocument changesSinceFailureInfo ) {
       if ( buildInfo == null ) {
-        throw new ArgumentNullException( "buildInfo" );
+        throw new ArgumentNullException( nameof( buildInfo ) );
       }
       if ( investigationInfo == null ) {
-        throw new ArgumentNullException( "investigationInfo" );
+        throw new ArgumentNullException( nameof( investigationInfo ) );
       }
       if ( changesSinceFailureInfo == null ) {
-        throw new ArgumentNullException( "changesSinceFailureInfo" );
+        throw new ArgumentNullException( nameof( changesSinceFailureInfo ) );
       }
 
       _buildInfo = buildInfo.SelectSingleNode( "./build" );
@@ -85,7 +86,9 @@ namespace BuildRadiator.Helpers {
       if ( isRunning ) {
         var estimatedTotalSeconds = int.Parse( buildInfo.GetInnerText( "./running-info/@estimatedTotalSeconds" ) );
         var elapsedSeconds = int.Parse( buildInfo.GetInnerText( "./running-info/@elapsedSeconds" ) );
-        return DateTime.UtcNow.AddSeconds( estimatedTotalSeconds - elapsedSeconds );
+
+        var endTime = DateTime.UtcNow.AddSeconds( estimatedTotalSeconds - elapsedSeconds );
+        return endTime.ToSecondPrecision();
       }
 
       return ParseDate( buildInfo.GetInnerText( "./finishDate" ) );
@@ -103,7 +106,7 @@ namespace BuildRadiator.Helpers {
     }
 
     private static DateTime ParseDate( string dateString ) {
-      return DateTime.ParseExact( dateString, "yyyyMMddTHHmmsszzz", CultureInfo.InvariantCulture );
+      return DateTime.ParseExact( dateString, "yyyyMMddTHHmmsszzz", CultureInfo.InvariantCulture ).ToSecondPrecision();
     }
 
     private static string ParseUsername( string username ) {
