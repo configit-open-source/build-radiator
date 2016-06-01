@@ -201,6 +201,8 @@
     <Compile Include="Helpers\DateTimeExtensions.cs" />
     <Compile Include="Helpers\MessageService.cs" />
     <Compile Include="Helpers\SignalRJsonSerializer.cs" />
+    <Compile Include="Hubs\IBuildHubClient.cs" />
+    <Compile Include="Hubs\IMessageHubClient.cs" />
     <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="Hubs\BuildHub.cs" />
     <Compile Include="Model\Tiles\ClockTileConfig.cs" />
