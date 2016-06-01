@@ -1,7 +1,5 @@
 ﻿using Configit.BuildRadiator;
-
 using Microsoft.Owin;
-
 using Owin;
 
 [assembly: OwinStartup( typeof( Startup ) )]

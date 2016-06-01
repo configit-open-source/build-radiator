@@ -10,7 +10,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace Configit.BuildRadiator.Hubs {
   public class BuildHub: Hub<IBuildHubClient> {
-    private const int RefreshTimer = 10 * 1000;
+    private static readonly TimeSpan RefreshTimer = TimeSpan.FromSeconds( 10 );
     private static readonly ConcurrentDictionary<Tuple<string, string>, int> GroupCounts;
     private static readonly ConcurrentDictionary<Tuple<string, string>, Build> PreviousBuild;
     private static readonly BuildService BuildService;
@@ -22,7 +22,7 @@ namespace Configit.BuildRadiator.Hubs {
       var authHeader = EncodeBase64( ConfigurationManager.AppSettings["TeamCityUser"]  + ":" + ConfigurationManager.AppSettings["TeamCityPassword"] );
       BuildService = new BuildService( ConfigurationManager.AppSettings["TeamCityUrl"], authHeader );
 
-      var timer = new Timer( RefreshTimer );
+      var timer = new Timer( RefreshTimer.TotalMilliseconds );
       timer.Elapsed += TimerOnElapsed;
       timer.Start();
     }
@@ -82,9 +82,5 @@ namespace Configit.BuildRadiator.Hubs {
       var byteArray = value.ToCharArray().Select( c => (byte) c );
       return Convert.ToBase64String( byteArray.ToArray() );
     }
-  }
-
-  public interface IBuildHubClient {
-    void Update( Build build );
   }
 }
