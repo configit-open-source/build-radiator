@@ -20,8 +20,4 @@ namespace Configit.BuildRadiator.Hubs {
       context.Clients.All.Update( message );
     }
   }
-
-  public interface IMessageHubClient {
-    void Update( Message message );
-  }
 }
