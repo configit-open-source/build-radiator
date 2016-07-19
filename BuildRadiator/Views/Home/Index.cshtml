@@ -1,5 +1,4 @@
-﻿@using System.Web.Optimization
-@{
+﻿@{
   Layout = "~/Views/Shared/_Layout.cshtml";
   ViewBag.Title = "Build Radiator";
   ViewBag.AngularApp = "BuildRadiator";
@@ -15,7 +14,7 @@
                   ng-class="( tile.error ? 'error-tile' : tile.project.status ) + ( tile.project.previouslyFailing ? ' previously-failing' : '' )">
 
       <div ng-if="tile.error">
-        {{ tile.error.data.message }}
+        {{ tile.error.Message }}
       </div>
 
       <div layout="column" layout-fill ng-if="!tile.error">

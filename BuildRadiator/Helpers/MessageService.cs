@@ -13,10 +13,10 @@ namespace Configit.BuildRadiator.Helpers {
 
       Messages = new[] {
         new Message( "lastRelease", BuildMessage( "2.4.2", "Xenon Patch 2", "07 Jan 2016" ), standardMessage ),
-        new Message( "sprintTheme", BuildTheme( "Logging &amp; Traceability", "Provide detailed information of changes within Ace to allow investigations into what happened and when"), "fancy" )
+        new Message( "sprintTheme", BuildTheme( "Solution Space Export", "Export the solution space to an Excel file" ), "fancy" )
       }.ToDictionary( m => m.Key );
     }
-    
+
     public Message Get( string messageKey ) {
       if ( Messages.ContainsKey( messageKey ) ) {
         return Messages[messageKey];
@@ -24,7 +24,7 @@ namespace Configit.BuildRadiator.Helpers {
 
       throw new ArgumentOutOfRangeException( nameof( messageKey ), "Message not found" );
     }
-    
+
     private static string BuildTheme( string title, string summary ) {
       var sb = new StringBuilder();
 

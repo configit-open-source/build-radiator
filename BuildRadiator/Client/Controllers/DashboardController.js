@@ -23,6 +23,21 @@
       tile.message = message;
     };
 
+    function onProjectUpdateError( build ) {
+      var tile = self.tiles.find( function( tile ) {
+        return tile.type === 'project'
+          && tile.config.buildName === build.name
+          && tile.config.branchName === build.branchName;
+      } );
+
+      if ( !tile ) {
+        $log.error( 'UNKNOWN PROJECT', build );
+        return;
+      }
+
+      tile.error = build.error;
+    };
+
     function onProjectUpdate( build ) {
       var tile = self.tiles.find( function( tile ) {
         return tile.type === 'project'
@@ -36,6 +51,7 @@
       }
 
       tile.project = build;
+      delete tile.error;
     };
 
     function registerProjects() {
@@ -58,7 +74,8 @@
       self.tiles = tiles;
 
       BuildHub.connect( $scope, {
-        update: onProjectUpdate
+        update: onProjectUpdate,
+        updateError: onProjectUpdateError
       } ).done( registerProjects );
 
       MessageHub.connect( $scope, {
