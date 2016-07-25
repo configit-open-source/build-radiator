@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -27,21 +29,23 @@ namespace Configit.BuildRadiator.Helpers {
     // SignalR types cannot be start with lowercase as the SignalR jQuery extension
     // assumes that keys start with Uppercase. 
     private class SignalRContractResolver: IContractResolver {
-      private readonly IContractResolver _configitContractResolver;
+      private readonly IContractResolver _contractResolver;
       private readonly DefaultContractResolver _defaultContractResolver;
+      private readonly Assembly _signalrAssembly;
 
-      public SignalRContractResolver( IContractResolver configitContractResolver ) {
-        _configitContractResolver = configitContractResolver;
+      public SignalRContractResolver( IContractResolver contractResolver ) {
+        _contractResolver = contractResolver;
         _defaultContractResolver = new DefaultContractResolver();
+
+        _signalrAssembly = typeof( Connection ).Assembly;
       }
 
       public JsonContract ResolveContract( Type type ) {
-        // only use resolver for "Configit" types (this may not be broad enough). 
-        if ( type?.Namespace != null && type.Namespace.StartsWith( "Configit" ) ) {
-          return _configitContractResolver.ResolveContract( type );
+        if ( type == null || type.Assembly == _signalrAssembly ) {
+          return _defaultContractResolver.ResolveContract( type );
         }
 
-        return _defaultContractResolver.ResolveContract( type );
+        return _contractResolver.ResolveContract( type );
       }
     }
   }

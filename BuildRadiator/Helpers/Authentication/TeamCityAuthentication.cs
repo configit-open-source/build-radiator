@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,26 +13,16 @@ using System.Web.Security;
 
 namespace Configit.BuildRadiator.Helpers {
   internal class TeamCityAuthentication: AuthorizeAttribute, IAuthenticationFilter {
-    public static IDictionary<string, string> AuthenticationHeaders { get; private set; }
-
-    static TeamCityAuthentication() {
-      AuthenticationHeaders = new Dictionary<string, string>( StringComparer.InvariantCultureIgnoreCase );
-    }
-
     internal static async Task<bool> Login( string username, string password ) {
       try {
-        var authenticationHeader = EncodeBase64( username + ":" + password );
+        if ( !string.Equals( username, ConfigurationManager.AppSettings["TeamCityUser"], StringComparison.InvariantCultureIgnoreCase ) ) {
+          return false;
+        }
 
-        var client = new HttpClient();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Basic", authenticationHeader );
+        if ( !string.Equals( password, ConfigurationManager.AppSettings["TeamCityPassword"], StringComparison.InvariantCulture ) ) {
+          return false;
+        }
 
-        var url = ConfigurationManager.AppSettings["TeamCityUrl"].TrimEnd( '/' ) + "/httpAuth/app/rest/server";
-
-        var response = await client.GetAsync( url );
-
-        response.EnsureSuccessStatusCode();
-
-        AuthenticationHeaders[username] = authenticationHeader;
         FormsAuthentication.SetAuthCookie( username, true );
 
         return true;
@@ -51,12 +39,7 @@ namespace Configit.BuildRadiator.Helpers {
     protected override bool AuthorizeCore( HttpContextBase httpContext ) {
       var request = httpContext.Request;
 
-      if ( request == null ) {
-        // If no http request then deny access as no checks can be made
-        return false;
-      }
-
-      var cookie = request.Cookies[FormsAuthentication.FormsCookieName];
+      var cookie = request?.Cookies[FormsAuthentication.FormsCookieName];
       if ( cookie == null ) {
         return false;
       }
@@ -80,7 +63,7 @@ namespace Configit.BuildRadiator.Helpers {
 
         if ( request.IsAjaxRequest() || acceptsJson ) {
           filterContext.Result = new HttpContentAndStatusResult {
-            StatusCode = (int) HttpStatusCode.Unauthorized,
+            StatusCode = (int)HttpStatusCode.Unauthorized,
             StatusDescription = "Unauthorized",
             ContentType = "application/json",
             Content = @"{ ""errors"": [ { ""message"": ""Invalid login credentials or session timed out."", ""errorCode"": ""SESSION-TIMEOUT"" } ] }"
@@ -90,7 +73,7 @@ namespace Configit.BuildRadiator.Helpers {
         }
       }
 
-      var returnUrl = request == null || request.Url == null ? null : Uri.EscapeDataString( request.Url.PathAndQuery );
+      var returnUrl = request?.Url == null ? null : Uri.EscapeDataString( request.Url.PathAndQuery );
       var returnUrlQueryString = returnUrl == null ? null : "?return=" + returnUrl;
 
       filterContext.Result = new RedirectResult( "~/Login/" + returnUrlQueryString );
@@ -118,11 +101,8 @@ namespace Configit.BuildRadiator.Helpers {
 
     private static IPrincipal ValidateUser( HttpRequestMessage request ) {
       var cookieContainer = request.Headers.GetCookies( FormsAuthentication.FormsCookieName ).FirstOrDefault();
-      if ( cookieContainer == null ) {
-        return null;
-      }
 
-      var cookie = cookieContainer.Cookies.FirstOrDefault( c => c.Name == FormsAuthentication.FormsCookieName );
+      var cookie = cookieContainer?.Cookies.FirstOrDefault( c => c.Name == FormsAuthentication.FormsCookieName );
       if ( cookie == null ) {
         return null;
       }
@@ -152,22 +132,14 @@ namespace Configit.BuildRadiator.Helpers {
       }
 
       var usernameInRequest = authenticationTicket.Name;
-      if ( !AuthenticationHeaders.ContainsKey( usernameInRequest ) ) {
-        return null;
-      }
 
       // Update the cookie to extend the expiration time
       FormsAuthentication.SetAuthCookie( usernameInRequest, true );
 
       var identity = new GenericIdentity( usernameInRequest, "TeamCity" );
-      var principal = new TeamCityPrincipal( identity, AuthenticationHeaders[usernameInRequest], new string[0] );
+      var principal = new GenericPrincipal( identity, new string[0] );
 
       return principal;
-    }
-
-    private static string EncodeBase64( string value ) {
-      var byteArray = value.ToCharArray().Select( c => (byte) c );
-      return Convert.ToBase64String( byteArray.ToArray() );
     }
   }
 }

@@ -19,7 +19,7 @@ namespace Configit.BuildRadiator.Hubs {
       GroupCounts = new ConcurrentDictionary<Tuple<string, string>, int>();
       PreviousBuild = new ConcurrentDictionary<Tuple<string, string>, Build>();
 
-      var authHeader = EncodeBase64( ConfigurationManager.AppSettings["TeamCityUser"]  + ":" + ConfigurationManager.AppSettings["TeamCityPassword"] );
+      var authHeader = EncodeBase64( ConfigurationManager.AppSettings["TeamCityUser"] + ":" + ConfigurationManager.AppSettings["TeamCityPassword"] );
       BuildService = new BuildService( ConfigurationManager.AppSettings["TeamCityUrl"], authHeader );
 
       var timer = new Timer( RefreshTimer.TotalMilliseconds );
@@ -58,13 +58,23 @@ namespace Configit.BuildRadiator.Hubs {
       PreviousBuild.TryGetValue( project, out previousBuild );
 
       Task.Run( async () => {
-        var build = await BuildService.Get( project.Item1, project.Item2 );
-        if ( !forceRefresh && BuildComparer.AreIdentical( build, previousBuild ) ) {
-          return;
-        }
+        try {
+          var build = await BuildService.Get( project.Item1, project.Item2 );
+          if ( !forceRefresh && BuildComparer.AreIdentical( build, previousBuild ) ) {
+            return;
+          }
 
-        PreviousBuild.AddOrUpdate( project, build, ( k, v ) => build );
-        Update( build );
+          PreviousBuild.AddOrUpdate( project, build, ( k, v ) => build );
+          Update( build );
+        } catch ( Exception ex ) {
+          var buildError = new BuildError {
+            Name = project.Item1,
+            BranchName = project.Item2,
+            Error = ex
+          };
+
+          UpdateError( buildError );
+        }
       } );
     }
 
@@ -74,13 +84,27 @@ namespace Configit.BuildRadiator.Hubs {
       context.Clients.Group( groupName ).Update( build );
     }
 
+    internal static void UpdateError( BuildError build ) {
+      var groupName = BuildGroupName( build.Name, build.BranchName );
+      var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub>();
+      context.Clients.Group( groupName ).UpdateError( build );
+    }
+
     private static string BuildGroupName( string projectName, string branchName ) {
       return $"Build${projectName}${branchName}";
     }
 
     private static string EncodeBase64( string value ) {
-      var byteArray = value.ToCharArray().Select( c => (byte) c );
+      var byteArray = value.ToCharArray().Select( c => (byte)c );
       return Convert.ToBase64String( byteArray.ToArray() );
     }
+  }
+
+  internal class BuildError {
+    public string Name { get; set; }
+
+    public string BranchName { get; set; }
+
+    public Exception Error { get; set; }
   }
 }
