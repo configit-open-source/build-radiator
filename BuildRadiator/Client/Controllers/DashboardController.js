@@ -7,6 +7,7 @@
     var self = this;
 
     self.committerLimit = 11;
+    self.serviceStatus = 'running';
 
     function onMessageUpdate( message ) {
       var tile = self.tiles.find( function( tile ) {
@@ -54,6 +55,10 @@
       delete tile.error;
     };
 
+    function onServiceStatus( status ) {
+      self.serviceStatus = status;
+    }
+
     function registerProjects() {
       self.tiles.filter( function( t ) {
         return t.type === 'project';
@@ -75,7 +80,8 @@
 
       BuildHub.connect( $scope, {
         update: onProjectUpdate,
-        updateError: onProjectUpdateError
+        updateError: onProjectUpdateError,
+        serviceStatus: onServiceStatus
       } ).done( registerProjects );
 
       MessageHub.connect( $scope, {
