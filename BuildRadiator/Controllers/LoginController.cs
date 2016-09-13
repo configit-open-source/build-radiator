@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Mvc;
-
+﻿using System.Web.Mvc;
 using Configit.BuildRadiator.Helpers;
 
 namespace Configit.BuildRadiator.Controllers {
@@ -12,11 +10,11 @@ namespace Configit.BuildRadiator.Controllers {
 
     [HttpPost]
     [ActionName( "Index" )]
-    public async Task<ActionResult> IndexPost() {
+    public ActionResult IndexPost() {
       var username = Request.Form["username"];
       var password = Request.Form["password"];
 
-      var loginSuccessful = await TeamCityAuthentication.Login( username, password );
+      var loginSuccessful = TeamCityAuthentication.Login( username, password );
 
       if ( loginSuccessful ) {
         return RedirectToAction( "Index", "Home" );
