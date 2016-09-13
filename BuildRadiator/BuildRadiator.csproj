@@ -167,7 +167,6 @@
     <Content Include="Scripts\angular-material.min.js" />
     <Content Include="Scripts\angular-messages.js" />
     <Content Include="Scripts\angular-messages.min.js" />
-    <None Include="Properties\PublishProfiles\Bart.pubxml" />
     <Content Include="Scripts\angular-messages.min.js.map" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
@@ -175,6 +174,7 @@
     <Content Include="Scripts\es6-shim.js" />
     <Content Include="Scripts\es6-shim.min.js" />
     <Content Include="Scripts\i18n\angular-locale_en-gb.js" />
+    <None Include="Properties\PublishProfiles\Disk.pubxml" />
     <None Include="Scripts\jquery-1.12.3.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.3.js" />
     <Content Include="Scripts\jquery-1.12.3.min.js" />

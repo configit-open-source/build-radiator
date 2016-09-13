@@ -19,7 +19,7 @@ namespace Configit.BuildRadiator.Controllers {
         new ProjectTile( "Base Commit", "Base Commit", "master" ),
         new ProjectTile( "Ace Germanium", "Ace Commit", "germanium" ),
         new ProjectTile( "Ace Germanium Deploy", "Ace Daily Deploy (Germanium)", "germanium" ),
-        new ProjectTile( "Ace MVFF Deploy", "Ace Daily Deploy (MVFF)", "mvff" ),
+        new ProjectTile( "Ace JLR Deploy", "Ace Daily Deploy (JLR)", "master" ),
         new ProjectTile( "Ace Daily", "Ace Daily Deploy", "master" ),
         new ProjectTile( "Ace End To End", "Ace End To End Test", "master" ),
         new ProjectTile( "Ace Upgrade", "Ace Daily Upgrade", "master" ),

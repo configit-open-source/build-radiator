@@ -13,7 +13,9 @@ using System.Web.Security;
 
 namespace Configit.BuildRadiator.Helpers {
   internal class TeamCityAuthentication: AuthorizeAttribute, IAuthenticationFilter {
-    internal static async Task<bool> Login( string username, string password ) {
+    private static readonly TimeSpan ExpirationTime = TimeSpan.FromDays( 365 );
+
+    internal static bool Login( string username, string password ) {
       try {
         if ( !string.Equals( username, ConfigurationManager.AppSettings["TeamCityUser"], StringComparison.InvariantCultureIgnoreCase ) ) {
           return false;
@@ -23,8 +25,23 @@ namespace Configit.BuildRadiator.Helpers {
           return false;
         }
 
-        FormsAuthentication.SetAuthCookie( username, true );
+        var utcNow = DateTime.UtcNow;
 
+        var ticket = new FormsAuthenticationTicket( 
+          2,
+          username, 
+          utcNow.ToLocalTime(), 
+          utcNow.Add( ExpirationTime ).ToLocalTime(), 
+          true, 
+          string.Empty 
+        );
+
+        var encryptedTicket = FormsAuthentication.Encrypt( ticket );
+        var cookie = new HttpCookie( FormsAuthentication.FormsCookieName, encryptedTicket ) {
+          Expires = ticket.Expiration
+        };
+
+        HttpContext.Current.Response.Cookies.Add( cookie );
         return true;
       } catch {
         return false;
@@ -132,10 +149,7 @@ namespace Configit.BuildRadiator.Helpers {
       }
 
       var usernameInRequest = authenticationTicket.Name;
-
-      // Update the cookie to extend the expiration time
-      FormsAuthentication.SetAuthCookie( usernameInRequest, true );
-
+      
       var identity = new GenericIdentity( usernameInRequest, "TeamCity" );
       var principal = new GenericPrincipal( identity, new string[0] );
 
