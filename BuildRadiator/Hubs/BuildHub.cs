@@ -73,6 +73,7 @@ namespace Configit.BuildRadiator.Hubs {
             Error = ex
           };
 
+          PreviousBuild.TryRemove( project, out previousBuild );
           UpdateError( buildError );
         }
       } );

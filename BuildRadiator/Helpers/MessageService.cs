@@ -12,8 +12,8 @@ namespace Configit.BuildRadiator.Helpers {
       var standardMessage = new[] { "standard" };
 
       Messages = new[] {
-        new Message( "lastRelease", BuildMessage( "2.4.2", "Xenon Patch 2", "07 Jan 2016" ), standardMessage ),
-        new Message( "sprintTheme", BuildTheme( "Solution Space Export", "Export the solution space to an Excel file" ), "fancy" )
+        new Message( "lastRelease", BuildMessage( "3.0", "Carbon", "17 Oct 2016" ), standardMessage ),
+        new Message( "sprintTheme", BuildTheme( "Import Services", "Generic services from importing data in to Ace" ), "fancy" )
       }.ToDictionary( m => m.Key );
     }
 
