@@ -18,7 +18,7 @@ namespace Configit.BuildRadiator.Controllers {
         new ProjectTile( "Grid Commit", "Grid Commit", "master" ),
         new ProjectTile( "Base Commit", "Base Commit", "master" ),
         new ProjectTile( "Database Installer", "Database Installer Commit", "master" ),
-        new ProjectTile( "Ace Carbon", "Ace Commit", "carbon" ),
+        new ProjectTile( "Ace Carbon", "Ace Commit (NUnit2)", "carbon" ),
         new ProjectTile( "Ace Daily (JLR)", "Ace Daily Deploy (JLR)", "master" ),
         new ProjectTile( "Ace Daily (Product)", "Ace Daily Deploy", "master" ),
         new ProjectTile( "Ace End To End", "Ace End To End Test", "master" ),
