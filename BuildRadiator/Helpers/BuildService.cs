@@ -9,6 +9,8 @@ using Configit.BuildRadiator.Model.Builds;
 
 namespace Configit.BuildRadiator.Helpers {
   public class BuildService {
+    public const string DefaultBranchName = "<default>";
+
     private readonly string _baseUrl;
     private readonly string _authenticationHeader;
 
@@ -29,7 +31,7 @@ namespace Configit.BuildRadiator.Helpers {
 
     public async Task<Build> Get( string buildType, string branchName ) {
       var client = CreateClient();
-
+      
       var buildInfoTask = Task.Run( () => GetBuildInfo( client, buildType, branchName ) );
       var investigationInfoTask = Task.Run( () => GetInvestigationInfo( client, buildType ) );
       var changesSinceFailureInfoTask = Task.Run( () => GetChangesSinceFailureInfo( client, buildType, branchName ) );
@@ -42,7 +44,7 @@ namespace Configit.BuildRadiator.Helpers {
     }
 
     private static async Task<XmlDocument> GetBuildInfo( HttpClient client, string buildType, string branchName ) {
-      var url = "builds/buildType:name:" + Uri.EscapeDataString( buildType ) + ",running:any,branch:" + Uri.EscapeUriString( branchName ) + ",count:1?fields=buildType,branchName,status,statusText,startDate,finishDate,running,running-info";
+      var url = "builds/buildType:name:" + Uri.EscapeDataString( buildType ) + ",running:any,branch:" + Uri.EscapeUriString( branchName ) + ",count:1?fields=defaultBranch,buildType,branchName,status,statusText,startDate,finishDate,running,running-info";
       var cacheBuster = "&t=" + DateTime.UtcNow.Ticks;
 
       var data = await client.GetStringAsync( url + cacheBuster );
