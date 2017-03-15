@@ -13,7 +13,7 @@ namespace Configit.BuildRadiator.Helpers {
 
       Messages = new[] {
         new Message( "lastRelease", BuildMessage( "3.0", "Carbon", "17 Oct 2016" ), standardMessage ),
-        new Message( "sprintTheme", BuildTheme( "Import Services", "Generic services from importing data in to Ace" ), "fancy" )
+        new Message( "sprintTheme", BuildTheme( "Selene Bug Fixing", "Preparing for the Selene release" ), "fancy" )
       }.ToDictionary( m => m.Key );
     }
 
