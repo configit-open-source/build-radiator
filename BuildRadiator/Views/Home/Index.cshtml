@@ -6,7 +6,21 @@
 }
 
 <div flex>
-  <md-grid-list md-cols="6" md-row-height="2:2" md-gutter="8px" style="margin: 8px">
+  <md-grid-list md-cols="6" md-row-height="2:2" md-gutter="8px" style="margin: 8px" ng-if="ctrl.serviceStatus !== 'running'">
+
+
+    <md-grid-tile md-rowspan="3" md-colspan="6"
+                  class="error-tile build-tile">
+      <div>
+        Teamcity service not running.
+      </div>
+      <md-grid-tile-footer>
+        <h3>Service problem</h3>
+      </md-grid-tile-footer>
+    </md-grid-tile>
+  </md-grid-list>
+
+  <md-grid-list md-cols="6" md-row-height="2:2" md-gutter="8px" style="margin: 8px" ng-if="ctrl.serviceStatus === 'running'">
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
                   class="build-tile"
                   ng-repeat-start="tile in ctrl.tiles"
@@ -20,7 +34,8 @@
       <div layout="column" layout-fill ng-if="!tile.error">
         @* Failed *@
         <div class="user-list" ng-if="tile.project.status === 'failed'">
-          <gravatar email="tile.project.investigator" title="{{ tile.project.investigator }}" size="100" ng-if="tile.project.investigator"></gravatar><gravatar email="username" title="{{ username }}" ng-repeat="username in tile.project.committers | limitTo:ctrl.committerLimit" size="50" ng-if="!tile.project.investigator"></gravatar><div class="committer-overflow" ng-if="!tile.project.investigator && tile.project.committers.length > ctrl.committerLimit">{{ tile.project.committers.length }}</div>
+          <gravatar email="tile.project.investigator" title="{{ tile.project.investigator }}" size="100" ng-if="tile.project.investigator"></gravatar><gravatar email="username" title="{{ username }}" ng-repeat="username in tile.project.committers | limitTo:ctrl.committerLimit" size="50" ng-if="!tile.project.investigator"></gravatar>
+          <div class="committer-overflow" ng-if="!tile.project.investigator && tile.project.committers.length > ctrl.committerLimit">{{ tile.project.committers.length }}</div>
         </div>
 
         @* In Progress *@

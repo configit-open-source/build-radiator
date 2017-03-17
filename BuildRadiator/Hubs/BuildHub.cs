@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Configuration;
 using System.Linq;
+using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Timers;
 using Configit.BuildRadiator.Helpers;
@@ -14,10 +15,21 @@ namespace Configit.BuildRadiator.Hubs {
     private static readonly ConcurrentDictionary<Tuple<string, string>, int> GroupCounts;
     private static readonly ConcurrentDictionary<Tuple<string, string>, Build> PreviousBuild;
     private static readonly BuildService BuildService;
+    private static readonly ServiceController _teamCityService;
 
     static BuildHub() {
       GroupCounts = new ConcurrentDictionary<Tuple<string, string>, int>();
       PreviousBuild = new ConcurrentDictionary<Tuple<string, string>, Build>();
+
+      var tcServiceName = ConfigurationManager.AppSettings["TeamCityService"];
+      if ( !string.IsNullOrEmpty( tcServiceName ) ) {
+        try {
+          _teamCityService = new ServiceController( tcServiceName );
+        }
+        catch {
+          // Ignore if we can't find the servie
+        }
+      }
 
       var authHeader = EncodeBase64( ConfigurationManager.AppSettings["TeamCityUser"] + ":" + ConfigurationManager.AppSettings["TeamCityPassword"] );
       BuildService = new BuildService( ConfigurationManager.AppSettings["TeamCityUrl"], authHeader );
@@ -33,6 +45,12 @@ namespace Configit.BuildRadiator.Hubs {
         if ( GroupCounts.TryGetValue( project, out count ) && count > 0 ) {
           RefreshProject( project );
         }
+      }
+
+      if ( _teamCityService != null ) {
+        _teamCityService.Refresh();
+        var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub>();
+        context.Clients.All.ServiceStatus( _teamCityService.Status );
       }
     }
 
@@ -66,7 +84,8 @@ namespace Configit.BuildRadiator.Hubs {
 
           PreviousBuild.AddOrUpdate( project, build, ( k, v ) => build );
           Update( build );
-        } catch ( Exception ex ) {
+        }
+        catch ( Exception ex ) {
           var buildError = new BuildError {
             Name = project.Item1,
             BranchName = project.Item2,
@@ -96,7 +115,7 @@ namespace Configit.BuildRadiator.Hubs {
     }
 
     private static string EncodeBase64( string value ) {
-      var byteArray = value.ToCharArray().Select( c => (byte)c );
+      var byteArray = value.ToCharArray().Select( c => (byte) c );
       return Convert.ToBase64String( byteArray.ToArray() );
     }
   }
