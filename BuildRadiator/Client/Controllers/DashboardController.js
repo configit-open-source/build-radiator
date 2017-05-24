@@ -10,7 +10,7 @@
 
     function onMessageUpdate( message ) {
       var tile = self.tiles.find( function( tile ) {
-        return tile.type === 'message'
+        return tile.type === 'Configit.BuildRadiator.Model.MessageTile'
           && tile.config.messageKey === message.key;
       } );
 
@@ -25,8 +25,8 @@
 
     function onProjectUpdateError( build ) {
       var tile = self.tiles.find( function( tile ) {
-        return tile.type === 'project'
-          && tile.config.buildName === build.name
+        return tile.type === 'Configit.BuildRadiator.Model.BuildTile'
+          && tile.config.buildName === build.build
           && tile.config.branchName === build.branchName;
       } );
 
@@ -56,7 +56,7 @@
 
     function registerProjects() {
       self.tiles.filter( function( t ) {
-        return t.type === 'project';
+        return t.type === 'Configit.BuildRadiator.Model.BuildTile';
       } ).forEach( function( tile ) {
         BuildHub.server.register( tile.config.buildName, tile.config.branchName );
       } );
@@ -64,7 +64,7 @@
 
     function registerMessages() {
       self.tiles.filter( function( t ) {
-        return t.type === 'message';
+        return t.type === 'Configit.BuildRadiator.Model.MessageTile';
       } ).forEach( function( tile ) {
         MessageHub.server.get( tile.config.messageKey );
       } );

@@ -7,12 +7,13 @@
     return {
       restrict: 'E',
       scope: {
-        timezone: '='
+        timeZoneId: '='
       },
-      template: '<div>{{ time }}</div><div class="small">{{ date }}</div>',
+      template: '<div> {{ time }}</div><div class="small">{{ date }}</div>',
       link: function( scope ) { 
         function refresh() {
-          var now = new moment().tz( scope.timezone );
+          var now = moment().tz( scope.timeZoneId );
+         
           scope.time = now.format( 'HH:mm' );
           scope.date = now.format( 'DD MMMM YYYY' );
         }

@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildRadiator", "BuildRadiator\BuildRadiator.csproj", "{171BF1AA-687B-4E17-89F8-58F444738EB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildRadiator.Test", "BuildRadiator.Test\BuildRadiator.Test.csproj", "{F6050631-7F72-4DC6-A6EE-CA5878A7F031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +17,10 @@ Global
 		{171BF1AA-687B-4E17-89F8-58F444738EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{171BF1AA-687B-4E17-89F8-58F444738EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{171BF1AA-687B-4E17-89F8-58F444738EB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6050631-7F72-4DC6-A6EE-CA5878A7F031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6050631-7F72-4DC6-A6EE-CA5878A7F031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6050631-7F72-4DC6-A6EE-CA5878A7F031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6050631-7F72-4DC6-A6EE-CA5878A7F031}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

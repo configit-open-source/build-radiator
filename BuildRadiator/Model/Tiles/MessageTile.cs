@@ -1,15 +1,8 @@
-﻿namespace Configit.BuildRadiator.Model {
-  public class MessageTile: Tile<MessageTileConfig> {
-    public override string Type {
-      get { return "message"; }
-    }
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-    public MessageTile( string caption, string messageKey, params string[] classes ) {
-      Caption = caption;
-      Config = new MessageTileConfig {
-        MessageKey = messageKey,
-        Classes = classes
-      };
-    }
+namespace Configit.BuildRadiator.Model {
+  [Table( "MessageTiles" )]
+  public class MessageTile: Tile {
+    public Message Message { get; set; }
   }
 }

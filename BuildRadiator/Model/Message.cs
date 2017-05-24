@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Configit.BuildRadiator.Model {
   public class Message {
@@ -10,7 +11,7 @@ namespace Configit.BuildRadiator.Model {
       Content = content;
       Classes = classes;
     }
-
+    [Key]
     public string Key { get; set; }
     public string Content { get; set; }
     public ICollection<string> Classes { get; set; }

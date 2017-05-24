@@ -1,14 +1,32 @@
-namespace Configit.BuildRadiator.Model {
-  public class ClockTile: Tile<ClockTileConfig> {
-    public override string Type {
-      get { return "clock"; }
-    }
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
+using NodaTime;
 
-    public ClockTile( string caption, string timezone ) {
-      Caption = caption;
-      Config = new ClockTileConfig {
-        Timezone = timezone
-      };
+namespace Configit.BuildRadiator.Model {
+  [Table( "ClockTiles" )]
+  public class ClockTile: Tile {
+   
+    private string _timeZoneId;
+
+    public string TimeZoneId {
+      get { return _timeZoneId; }
+      set {
+        if ( value == null ) throw new ArgumentNullException( nameof( value ) );
+
+        if ( DateTimeZoneProviders
+          .Tzdb[value]
+          .GetZoneIntervals( Instant.FromUtc( System.DateTime.UtcNow.Year, 1, 1, 0, 0 ),
+            Instant.FromUtc( System.DateTime.UtcNow.Year + 1, 1, 1, 0, 0 ) ).Any() ) {
+          _timeZoneId = value;
+        }
+        else {
+          throw new ArgumentException( nameof( value ) );
+        }
+
+      }
     }
   }
 }

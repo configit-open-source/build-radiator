@@ -10,7 +10,7 @@
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
                   class="build-tile"
                   ng-repeat-start="tile in ctrl.tiles"
-                  ng-if="tile.type == 'project'"
+                  ng-if="tile.type == 'Configit.BuildRadiator.Model.BuildTile'"
                   ng-class="( tile.error ? 'error-tile' : tile.project.status ) + ( tile.project.previouslyFailing ? ' previously-failing' : '' )">
 
       <div ng-if="tile.error">
@@ -43,29 +43,29 @@
       <md-grid-tile-footer>
         <div layout="row">
           <build-status-icon status="tile.project.status"></build-status-icon>
-          <h3 flex>{{ ::tile.caption }}</h3>
+          <h3 flex>{{ ::tile.title }}</h3>
         </div>
       </md-grid-tile-footer>
     </md-grid-tile>
 
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
-                  ng-if="tile.type == 'message'"
+                  ng-if="tile.type == 'Configit.BuildRadiator.Model.MessageTile'"
                   ng-class="( tile.error ? 'error-tile ' : 'message-tile ' ) + tile.message.classes.join( ' ' )">
       <div flex ng-if="!tile.error" class="message-content" ng-bind-html="tile.message.contentHtml"></div>
       <md-grid-tile-footer>
-        <h3>{{ ::tile.caption }}</h3>
+        <h3>{{ ::tile.title }}</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
 
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
-                  ng-if="tile.type == 'clock'"
+                  ng-if="tile.type == 'Configit.BuildRadiator.Model.ClockTile'"
                   ng-repeat-end
-                  ng-class="( tile.error ? 'error-tile ' : 'clock-tile ' )">
+                  ng-class="( tile.error ? 'error-tile' : 'clock-tile ' )">
       <div flex ng-if="!tile.error" class="message-content">
-        <clock timezone="tile.config.timezone"></clock>
+        <clock timezone="tile.timeZoneId"></clock>
       </div>
       <md-grid-tile-footer>
-        <h3>{{ ::tile.caption }}</h3>
+        <h3>{{ ::tile.title }}</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
   </md-grid-list>
