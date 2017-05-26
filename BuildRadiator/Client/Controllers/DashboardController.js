@@ -11,7 +11,7 @@
     function onMessageUpdate( message ) {
       var tile = self.tiles.find( function( tile ) {
         return tile.type === 'Configit.BuildRadiator.Model.MessageTile'
-          && tile.config.messageKey === message.key;
+          && tile.messageKey === message.key;
       } );
 
       if ( !tile ) {
@@ -26,8 +26,8 @@
     function onProjectUpdateError( build ) {
       var tile = self.tiles.find( function( tile ) {
         return tile.type === 'Configit.BuildRadiator.Model.BuildTile'
-          && tile.config.buildName === build.build
-          && tile.config.branchName === build.branchName;
+          && tile.build.name === build.name
+          && tile.build.branchName === build.branch;
       } );
 
       if ( !tile ) {
@@ -40,9 +40,9 @@
 
     function onProjectUpdate( build ) {
       var tile = self.tiles.find( function( tile ) {
-        return tile.type === 'project'
-          && tile.config.buildName === build.name
-          && tile.config.branchName === build.branchName;
+        return tile.type === 'Configit.BuildRadiator.Model.BuildTile'
+          && tile.build.name === build.name
+          && tile.build.branchName === build.branchName;
       } );
 
       if ( !tile ) {
@@ -58,7 +58,7 @@
       self.tiles.filter( function( t ) {
         return t.type === 'Configit.BuildRadiator.Model.BuildTile';
       } ).forEach( function( tile ) {
-        BuildHub.server.register( tile.config.buildName, tile.config.branchName );
+        BuildHub.server.register( tile.build.name, tile.build.branchName );
       } );
     }
 
@@ -66,7 +66,7 @@
       self.tiles.filter( function( t ) {
         return t.type === 'Configit.BuildRadiator.Model.MessageTile';
       } ).forEach( function( tile ) {
-        MessageHub.server.get( tile.config.messageKey );
+        MessageHub.server.get( tile.messageKey );
       } );
     }
 

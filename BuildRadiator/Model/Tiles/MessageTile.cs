@@ -3,6 +3,6 @@
 namespace Configit.BuildRadiator.Model {
   [Table( "MessageTiles" )]
   public class MessageTile: Tile {
-    public Message Message { get; set; }
+    public string MessageKey { get; set; }
   }
 }

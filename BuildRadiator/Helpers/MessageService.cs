@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Configit.BuildRadiator.Controllers;
 using Configit.BuildRadiator.Model;
 
 namespace Configit.BuildRadiator.Helpers {
   public class MessageService {
-    private static readonly IDictionary<string, Message> Messages;
+    // private static readonly IDictionary<string, Message> Messages;
+    private static readonly TileController.RadiatorContext Context;
 
     static MessageService() {
       var standardMessage = new[] { "standard" };
-
-      Messages = new[] {
-        new Message( "lastRelease", BuildMessage( "3.0", "Carbon", "17 Oct 2016" ), standardMessage ),
-        new Message( "sprintTheme", BuildTheme( "Selene Bug Fixing", "Preparing for the Selene release" ), "fancy" )
-      }.ToDictionary( m => m.Key );
+      Context = new TileController.RadiatorContext();
     }
 
-    public Message Get( string messageKey ) {
-      if ( Messages.ContainsKey( messageKey ) ) {
-        return Messages[messageKey];
-      }
+    public Message Get( string messageKey )
+    {
 
-      throw new ArgumentOutOfRangeException( nameof( messageKey ), "Message not found" );
+     var message= Context.Messages.FirstOrDefault( m => m.Key == messageKey );
+
+      return message;
+
     }
 
     private static string BuildTheme( string title, string summary ) {
