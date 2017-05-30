@@ -23,7 +23,7 @@
         scope.$on( '$destroy', function() {
           $interval.cancel( timer );
         } );
-
+        
         refresh();
       }
     };

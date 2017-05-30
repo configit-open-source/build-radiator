@@ -6,8 +6,6 @@ using Configit.BuildRadiator.Controllers;
 namespace Configit.BuildRadiator.Model.Builds {
   public class Build {
     public int Id { get; set; }
-
-    public virtual Tile Tile { get; set; }
     public string Name { get; set; }
     public string BranchName { get; set; }
     [NotMapped]

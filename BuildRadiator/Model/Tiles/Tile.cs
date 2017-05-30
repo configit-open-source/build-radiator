@@ -2,6 +2,7 @@
   public abstract class Tile {
 
     public int Id { get; set; }
+    public int Order { get; set; }
     public string Type => this.GetType().ToString();
     public string Title { get; set; }
     public int ColumnSpan { get; set; }
