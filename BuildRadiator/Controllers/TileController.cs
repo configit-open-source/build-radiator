@@ -70,7 +70,7 @@ namespace Configit.BuildRadiator.Controllers {
     public TileController() {
       Context = new RadiatorContext();
       Context.Configuration.LazyLoadingEnabled = false;
-      InitializeDatabase();
+      //InitializeDatabase();
       // Context = new RadiatorContext();
 
       //StaticTiles = new Tile[] {

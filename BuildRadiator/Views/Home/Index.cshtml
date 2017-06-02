@@ -11,7 +11,7 @@
                   class="build-tile"
                   ng-repeat-start="tile in ctrl.tiles"
                   ng-if="tile.type == 'Configit.BuildRadiator.Model.BuildTile'"
-                  ng-class="( tile.error ? 'error-tile' : tile.project.status ) + ( tile.project.previouslyFailing ? ' previously-failing' : '' )">
+                  ng-class="( tile.error ? 'error-tile' : tile.build.status ) + ( tile.build.previouslyFailing ? ' previously-failing' : '' )">
 
       <div ng-if="tile.error">
         {{ tile.error.Message }}
@@ -19,30 +19,30 @@
 
       <div layout="column" layout-fill ng-if="!tile.error">
         @* Failed *@
-        <div class="user-list" ng-if="tile.project.status === 'failed'">
-          <gravatar email="tile.project.investigator" title="{{ tile.project.investigator }}" size="100" ng-if="tile.project.investigator"></gravatar><gravatar email="username" title="{{ username }}" ng-repeat="username in tile.project.committers | limitTo:ctrl.committerLimit" size="50" ng-if="!tile.project.investigator"></gravatar><div class="committer-overflow" ng-if="!tile.project.investigator && tile.project.committers.length > ctrl.committerLimit">{{ tile.project.committers.length }}</div>
+        <div class="user-list" ng-if="tile.build.status === 'failed'">
+          <gravatar email="tile.build.investigator" title="{{ tile.build.investigator }}" size="100" ng-if="tile.build.investigator"></gravatar><gravatar email="username" title="{{ username }}" ng-repeat="username in tile.build.committers | limitTo:ctrl.committerLimit" size="50" ng-if="!tile.build.investigator"></gravatar><div class="committer-overflow" ng-if="!tile.build.investigator && tile.build.committers.length > ctrl.committerLimit">{{ tile.build.committers.length }}</div>
         </div>
 
         @* In Progress *@
-        <div class="messages in-progress" ng-if="tile.project.status === 'inProgress'">
-          Started <strong>{{ tile.project.start | fromNow }}</strong><br/>
-          Should finish <strong>{{ tile.project.end | fromNow }}</strong>
+        <div class="messages in-progress" ng-if="tile.build.status === 'inProgress'">
+          Started <strong>{{ tile.build.start | fromNow }}</strong><br/>
+          Should finish <strong>{{ tile.build.end | fromNow }}</strong>
         </div>
 
         @* Success *@
-        <div class="messages success" ng-if="tile.project.status === 'success'">
-          Built <strong>{{ tile.project.end | fromNow }}</strong><br/>
-          Took <strong>{{ tile.project.end | fromTime:tile.project.start }}</strong>
+        <div class="messages success" ng-if="tile.build.status === 'success'">
+          Built <strong>{{ tile.build.end | fromNow }}</strong><br/>
+          Took <strong>{{ tile.build.end | fromTime:tile.build.start }}</strong>
         </div>
 
-        <div flex class="progress-box" layout="column" layout-align="end center" ng-if="tile.project.status === 'inProgress'">
-          <md-progress-linear md-mode="determinate" value="{{ tile.project.percentComplete }}"></md-progress-linear>
+        <div flex class="progress-box" layout="column" layout-align="end center" ng-if="tile.build.status === 'inProgress'">
+          <md-progress-linear md-mode="determinate" value="{{ tile.build.percentComplete }}"></md-progress-linear>
         </div>
       </div>
 
       <md-grid-tile-footer>
         <div layout="row">
-          <build-status-icon status="tile.project.status"></build-status-icon>
+          <build-status-icon status="tile.build.status"></build-status-icon>
           <h3 flex>{{ ::tile.title }}</h3>
         </div>
       </md-grid-tile-footer>
@@ -60,12 +60,16 @@
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
                   ng-if="tile.type == 'Configit.BuildRadiator.Model.ClockTile'"
                   ng-repeat-end
-                  ng-class="( tile.error ? 'error-tile' : 'clock-tile ' )">
+                  ng-class="( tile.error ? 'error-tile ' : 'clock-tile ' )">
       <div flex ng-if="!tile.error" class="message-content">
-        <clock timezone="tile.timeZoneId"></clock>
+          <clock timezone="tile.timeZoneId" ></clock>
+       
+              
+          
       </div>
-      <md-grid-tile-footer>
-        <h3>{{ ::tile.title }}</h3>
+      <md-grid-tile-footer ng-model="showEdit" ng-mouseover="showEdit=true" ng-mouseleave="showEdit=false">
+          <h3 contenteditable="{{showEdit}}">{{ ::tile.title }}</h3>
+          
       </md-grid-tile-footer>
     </md-grid-tile>
   </md-grid-list>

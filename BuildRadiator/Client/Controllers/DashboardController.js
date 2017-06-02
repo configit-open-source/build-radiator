@@ -50,7 +50,7 @@
         return;
       }
 
-      tile.project = build;
+      tile.build = build;
       delete tile.error;
     };
 
