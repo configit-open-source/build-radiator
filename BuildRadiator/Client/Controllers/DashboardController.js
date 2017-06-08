@@ -27,7 +27,7 @@
       var tile = self.tiles.find( function( tile ) {
         return tile.type === 'Configit.BuildRadiator.Model.BuildTile'
           && tile.build.name === build.name
-          && tile.build.branchName === build.branch;
+          && tile.build.branchName === build.branchName;
       } );
 
       if ( !tile ) {

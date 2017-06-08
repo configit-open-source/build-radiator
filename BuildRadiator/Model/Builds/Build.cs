@@ -8,6 +8,7 @@ namespace Configit.BuildRadiator.Model.Builds {
     public int Id { get; set; }
     public string Name { get; set; }
     public string BranchName { get; set; }
+
     [NotMapped]
     public BuildStatus Status { get; set; }
     [NotMapped]
