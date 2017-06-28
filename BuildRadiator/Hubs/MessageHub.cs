@@ -11,7 +11,7 @@ namespace Configit.BuildRadiator.Hubs {
     }
 
     public void Get( string messageKey ) {
-      var message = _messageService.Get( messageKey );
+      var message= _messageService.Get( messageKey );
       Clients.All.Update( message );
     }
 

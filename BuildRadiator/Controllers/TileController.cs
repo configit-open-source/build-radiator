@@ -13,13 +13,13 @@ using Microsoft.Ajax.Utilities;
 namespace Configit.BuildRadiator.Controllers {
   public class TileController: ApiController {
 
-    private readonly RadiatorContext Context;
+    private readonly RadiatorContext _context;
 
     private void InitializeDatabase() {
       Database.SetInitializer( new DropCreateDatabaseAlways<RadiatorContext>() );
 
       try {
-        Context.Database.Initialize( true );
+        _context.Database.Initialize( true );
 
         var clockTile = new ClockTile() { Order = 0, Title = "Otter Office", TimeZoneId = "Europe/London" };
         var clockTile2 = new ClockTile() { Order = 7, Title = "Denmark Office", TimeZoneId = "Europe/Copenhagen" };
@@ -28,15 +28,15 @@ namespace Configit.BuildRadiator.Controllers {
         var message = new Message() { Key = "Otter", Content = "<img src='https://media.giphy.com/media/l0K45p4XQTVmyClMs/giphy-downsized-large.gif' />" };
         var message2 = new Message() { Key = "Log", Content = "<h1 style=\"color: orange;Height:200px ;background-image: url('http://p.fod4.com/p/media/413ade39e1/sCHdfjwxRui3uyB9h8mr_o3.gif'\">Otters rock!</H1>" };
         var message3 = new Message() { Key = "Hamster", Content = "<img src='https://68.media.tumblr.com/56ab2b83f9308cb58b5deb82c4c53cfd/tumblr_oie73yaAfM1rjlj53o1_500.gif' />" };
-        Context.Messages.Add( message );
-        Context.Messages.Add( message2 );
-        Context.Messages.Add( message3 );
+        _context.Messages.Add( message );
+        _context.Messages.Add( message2 );
+        _context.Messages.Add( message3 );
 
         var messageTile = new MessageTile() { Order = 1, Title = "Important otter stuff", MessageKey = "Otter", ColumnSpan = 2 };
         var messageTile2 = new MessageTile() { Order = 3, Title = "Ottercam", MessageKey = "Log", ColumnSpan = 2 };
 
         var server = new BuildServer() { Password = "2vov3rap", Url = "http://build.configit.com", User = "Bob" };
-        Context.BuildServers.Add( server );
+        _context.BuildServers.Add( server );
 
         var build = new Build {
           BranchName = "selene",
@@ -58,9 +58,9 @@ namespace Configit.BuildRadiator.Controllers {
         var page1 = new Page() { Title = "Page 1", Tiles = tiles };
         page1.Tiles = tiles;
 
-        Context.Pages.Add( page1 );
+        _context.Pages.Add( page1 );
 
-        Context.SaveChanges();
+        _context.SaveChanges();
       }
       catch ( DbEntityValidationException ex ) {
         Console.WriteLine( ex.Message );
@@ -68,37 +68,18 @@ namespace Configit.BuildRadiator.Controllers {
     }
 
     public TileController() {
-      Context = new RadiatorContext();
-      Context.Configuration.LazyLoadingEnabled = false;
+      _context = new RadiatorContext();
+      _context.Configuration.LazyLoadingEnabled = false;
       //InitializeDatabase();
-      // Context = new RadiatorContext();
-
-      //StaticTiles = new Tile[] {
-      //  new BuildTile() { ColumnSpan = 2, RowSpan = 1 },
-      //  new MessageTile { ColumnSpan = 2 }, // "Current Theme", "sprintTheme", "fancy" ) { ColumnSpan = 2 }, 
-      //  new ClockTile(), //( "UK Time", "Europe/London" ),
-      //  new BuildTile(),// "Ngyn", "Ngyn Commit" ),
-      //  new BuildTile(),// "Ace (Selene)", "Ace Commit", "selene" ),
-      //  new BuildTile(),// "Ace (Carbon)", "Ace Commit (NUnit2)" ),
-      //  new BuildTile(),// "Vcdb", "Vcdb Commit" ),
-      //  new BuildTile(),// "Installer", "Installer Commit" ),
-      //  new BuildTile(), // "Grid", "Grid Commit" ),
-      //  new BuildTile(), // "Database Installer", "Database Installer Commit" ),
-      //  new BuildTile(), // "Ace Daily (Product)", "Ace Daily Deploy" ),
-      //  new BuildTile(), // "Ace Daily (John Deere)", "Ace Daily Deploy (John Deere)" ),
-      //  new BuildTile(), // "Ace Daily (JLR)", "Ace Daily Deploy (JLR)" ),
-      //  new BuildTile(), // "Ace Daily (ABB)", "Ace Daily Deploy (ABB)" ),
-      //  new BuildTile(), // "Ace End To End", "Ace End To End Test" ),
-      //  new BuildTile() // "Ace Upgrade", "Ace Daily Upgrade" )
-      //};
+      
     }
 
 
     public IEnumerable<Tile> Get() {
 
-      var buildTiles = (IEnumerable<Tile>) Context.Tiles.OfType<BuildTile>().Include( "Build" );
-      var messageTiles = (IEnumerable<Tile>) Context.Tiles.OfType<MessageTile>();
-      var clockTiles = (IEnumerable<Tile>) Context.Tiles.OfType<ClockTile>();
+      var buildTiles = (IEnumerable<Tile>) _context.Tiles.OfType<BuildTile>().Include( "Build" );
+      var messageTiles = (IEnumerable<Tile>) _context.Tiles.OfType<MessageTile>();
+      var clockTiles = (IEnumerable<Tile>) _context.Tiles.OfType<ClockTile>();
       var tiles = buildTiles.Concat( messageTiles ).Concat( clockTiles );
 
       return tiles?.OrderBy( o => o.Order ).ToList();

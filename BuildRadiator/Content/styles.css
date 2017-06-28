@@ -1,4 +1,9 @@
-﻿.build-tile {
+﻿:focus {
+    outline: green;
+    
+}
+
+.build-tile {
   color: White;
 }
 
@@ -57,7 +62,7 @@
 }
 
   .clock-tile md-grid-tile-footer {
-    align: left;
+    text-align: left;
     color: rgba(0, 0, 0, 0.87);
   }
 
@@ -113,16 +118,17 @@ md-grid-tile {
 }
 
 md-grid-tile:hover input {
-  background-color: rgba(234,210,6,0.6);
+  background-color: rgba(234,210,6,0.4);
 }
 
 md-grid-tile:hover .concealed-input {
   visibility: visible;
-  background-color: rgba(234,210,6,0.6);
+  background-color: rgba(234,210,6,0.4);
 }
 
-md-grid-tile:hover .editable:hover {
-  background-color: rgba(234,210,6,0.6);
+md-grid-tile:hover [contenteditable] {
+  background-color: yellow;
+  background-color: rgba(234,210,6,0.4);
 }
 
 md-whiteframe {

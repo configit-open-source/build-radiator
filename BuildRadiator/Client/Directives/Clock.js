@@ -14,7 +14,7 @@
     template: '<div flex ng-if="!tile.error" class="message-content">'
            +  '<div> {{ time }}</div><div class="small">{{ date }}</div><div class="small" ></div>'
            +  '</div>'
-           + '<md-grid-tile-footer ><h3><input value="{{ title }}" /><select class="concealed-input" ng-bind-html="timezones" ng-model="timezone"></select></h3></md-grid-tile-footer>',
+    + '<md-grid-tile-footer ><h3><input value="{{ title }}" /><select ngyn-select2 class="concealed-input" ng-model="timezones"></select></h3></md-grid-tile-footer>',
 
       link: function( scope ) {
         function refresh() {

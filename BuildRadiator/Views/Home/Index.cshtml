@@ -51,7 +51,7 @@
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
                   ng-if="tile.type == 'Configit.BuildRadiator.Model.MessageTile'"
                   ng-class="( tile.error ? 'error-tile ' : 'message-tile ' )  + tile.message.classes.join( ' ' )">
-      <div flex ng-if="!tile.error" class="message-content" ng-bind-html="tile.message.contentHtml" contenteditable="true"></div>
+      <div flex ng-if="!tile.error" class="message-content editable" ng-bind-html="tile.message.contentHtml" contenteditable="true"  spellcheck="false"></div>
       <md-grid-tile-footer>
         <h3><input value="{{ ::tile.title }}" /></h3>
       </md-grid-tile-footer>

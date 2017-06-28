@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body layout="column" layout-fill ng-controller="@ViewBag.AngularController as ctrl" class="@( !string.IsNullOrWhiteSpace( ViewBag.AngularApp ) ? "ng-cloak" : "" )">
+<body layout="column" layout-fill ng-controller="@ViewBag.AngularController as ctrl" class="@( !string.IsNullOrWhiteSpace( ViewBag.AngularApp ) ? "ng-cloak" : "" )" >
   @RenderBody()
 
   @Scripts.Render( "~/bundles/scripts" )

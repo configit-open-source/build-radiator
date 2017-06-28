@@ -40,9 +40,9 @@
 
     function onProjectUpdate( build ) {
       var tile = self.tiles.find( function( tile ) {
-        return tile.type === 'Configit.BuildRadiator.Model.BuildTile'
-          && tile.build.name === build.name
-          && tile.build.branchName === build.branchName;
+          return tile.type === 'Configit.BuildRadiator.Model.BuildTile' && tile.build.id === build.buildId;
+          //&& tile.build.name === build.name
+          //&& tile.build.branchName === build.branchName;
       } );
 
       if ( !tile ) {
@@ -52,7 +52,7 @@
 
       tile.build = build;
       delete tile.error;
-    };
+    }
 
     function registerProjects() {
       self.tiles.filter( function( t ) {
