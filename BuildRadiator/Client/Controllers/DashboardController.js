@@ -7,6 +7,7 @@
     var self = this;
 
     self.committerLimit = 11;
+   
 
     function onMessageUpdate(message) {
       var tile = self.tiles.find(function (tile) {
