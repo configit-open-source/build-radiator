@@ -21,6 +21,7 @@
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -144,12 +145,14 @@
     <Content Include="Client\app.js" />
     <Content Include="Client\Controllers\LoginController.js" />
     <Content Include="Client\Controllers\DashboardController.js" />
+    <Content Include="Client\Directives\BuildStatistics.js" />
     <Content Include="Client\Directives\Clock.js" />
     <Content Include="Client\Directives\BuildStatusIcon.js" />
     <Content Include="Client\Directives\Gravatar.js" />
     <Content Include="Client\Filters\fromNow.js" />
     <Content Include="Client\Filters\fromTime.js" />
     <Content Include="Client\Services\BuildHub.js" />
+    <Content Include="Client\Services\BuildStatisticsHub.js" />
     <Content Include="Client\Services\MessageHub.js" />
     <Content Include="Client\Services\TileConfiguration.js" />
     <Content Include="Content\angular-material.css" />
@@ -197,14 +200,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\BuildComparer.cs" />
+    <Compile Include="Helpers\BuildStatisticsParser.cs" />
+    <Compile Include="Helpers\BuildStatisticsService.cs" />
     <Compile Include="Helpers\BuildService.cs" />
     <Compile Include="Helpers\DateTimeExtensions.cs" />
     <Compile Include="Helpers\MessageService.cs" />
     <Compile Include="Helpers\SignalRJsonSerializer.cs" />
+    <Compile Include="Hubs\BuildStatisticsHub.cs" />
     <Compile Include="Hubs\IBuildHubClient.cs" />
     <Compile Include="Hubs\IMessageHubClient.cs" />
     <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="Hubs\BuildHub.cs" />
+    <Compile Include="Model\Builds\BuildStatistics.cs" />
+    <Compile Include="Model\Tiles\BuildStatisticsTile.cs" />
+    <Compile Include="Model\Tiles\BuildStatisticsTileConfig.cs" />
     <Compile Include="Model\Tiles\ClockTileConfig.cs" />
     <Compile Include="Model\Tiles\ClockTile.cs" />
     <Compile Include="Controllers\HomeController.cs" />

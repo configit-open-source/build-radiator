@@ -56,6 +56,25 @@
   font-size: 48px;
 }
 
+.build-statistics-tile {
+  text-align: center;
+  background: lightblue;
+  font-size: 48px;
+  color: black;
+}
+
+.build-statistics-content {
+  margin-top: -24px;
+}
+
+.positive-change {
+  color: darkgreen;
+}
+
+.negative-change {
+  color: darkred;
+}
+
 .clock-tile md-grid-tile-footer {
   color: rgba(0, 0, 0, 0.87);
 }

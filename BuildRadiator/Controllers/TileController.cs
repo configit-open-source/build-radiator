@@ -9,7 +9,8 @@ namespace Configit.BuildRadiator.Controllers {
 
     static TileController() {
       Tiles = new Tile[] {
-        new ProjectTile( "Ace (master)", "Ace Commit" ) { ColumnSpan = 2, RowSpan = 1 },
+        new ProjectTile( "Ace (master)", "Ace Commit" )/* { ColumnSpan = 2, RowSpan = 1 }*/,
+        new BuildStatisticsTile( "Ace Coverage", "Ace Commit" ),
         new MessageTile( "Current Theme", "sprintTheme", "fancy" ) { ColumnSpan = 2 }, 
         new ClockTile( "UK Time", "Europe/London" ),
         new ProjectTile( "Ngyn", "Ngyn Commit" ),
