@@ -3,7 +3,7 @@
 
   var module = angular.module( 'BuildRadiator' );
 
-  module.controller( 'DashboardController', ['$scope', '$log', '$sce', 'TileConfiguration', 'BuildHub', 'MessageHub', function( $scope, $log, $sce, TileConfiguration, BuildHub, MessageHub ) {
+  module.controller( 'DashboardController', ['$scope', '$log', '$sce', 'TileConfiguration', 'BuildHub', 'BuildStatisticsHub', 'MessageHub', function( $scope, $log, $sce, TileConfiguration, BuildHub, BuildStatisticsHub, MessageHub ) {
     var self = this;
 
     self.committerLimit = 11;
@@ -22,6 +22,25 @@
 
       tile.message = message;
     };
+
+    function onBuildStatisticsUpdate( buildDetails ) {
+      var tile = self.tiles.find( function( tile ) {
+        return tile.type === 'build-statistics'
+          && tile.config.buildName === buildDetails.name
+          && tile.config.branchName === buildDetails.branchName;
+      } );
+
+      if ( !tile ) {
+        $log.error( 'UNKNOWN PROJECT', buildDetails );
+        return;
+      }
+
+      if (! tile.buildDetails) {
+        tile.buildDetails = buildDetails;
+      }
+
+      tile.buildDetails.statistics = buildDetails.statistics;
+    }
 
     function onProjectUpdateError( build ) {
       var tile = self.tiles.find( function( tile ) {
@@ -54,6 +73,14 @@
       delete tile.error;
     };
 
+    function registerBuildStatistics() {
+      self.tiles.filter( function( t ) {
+        return t.type === 'build-statistics';
+      } ).forEach( function( tile ) {
+        BuildStatisticsHub.server.register( tile.config.buildName, tile.config.branchName );
+      } );      
+    }
+
     function registerProjects() {
       self.tiles.filter( function( t ) {
         return t.type === 'project';
@@ -77,6 +104,10 @@
         update: onProjectUpdate,
         updateError: onProjectUpdateError
       } ).done( registerProjects );
+
+      BuildStatisticsHub.connect( $scope, {
+        update: onBuildStatisticsUpdate
+      } ).done( registerBuildStatistics );
 
       MessageHub.connect( $scope, {
         update: onMessageUpdate
