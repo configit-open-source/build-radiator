@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Configit.BuildRadiator.Model.Builds {
   public class Build {
+    public string Id { get; set; }
     public string Name { get; set; }
     public string BranchName { get; set; }
     public BuildStatus Status { get; set; }

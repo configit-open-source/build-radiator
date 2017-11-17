@@ -11,13 +11,13 @@ using Microsoft.AspNet.SignalR;
 namespace Configit.BuildRadiator.Hubs {
   public class BuildHub: Hub<IBuildHubClient> {
     private static readonly TimeSpan RefreshTimer = TimeSpan.FromSeconds( 10 );
-    private static readonly ConcurrentDictionary<Tuple<string, string>, int> GroupCounts;
-    private static readonly ConcurrentDictionary<Tuple<string, string>, Build> PreviousBuild;
+    private static readonly ConcurrentDictionary<(string buildId, string branchName), int> GroupCounts;
+    private static readonly ConcurrentDictionary<(string buildId, string branchName), Build> PreviousBuild;
     private static readonly BuildService BuildService;
 
     static BuildHub() {
-      GroupCounts = new ConcurrentDictionary<Tuple<string, string>, int>();
-      PreviousBuild = new ConcurrentDictionary<Tuple<string, string>, Build>();
+      GroupCounts = new ConcurrentDictionary<(string buildId, string branchName), int>();
+      PreviousBuild = new ConcurrentDictionary<(string buildId, string branchName), Build>();
 
       var authHeader = EncodeBase64( ConfigurationManager.AppSettings["TeamCityUser"] + ":" + ConfigurationManager.AppSettings["TeamCityPassword"] );
       BuildService = new BuildService( ConfigurationManager.AppSettings["TeamCityUrl"], authHeader );
@@ -29,37 +29,35 @@ namespace Configit.BuildRadiator.Hubs {
 
     private static void TimerOnElapsed( object sender, ElapsedEventArgs e ) {
       foreach ( var project in GroupCounts.Keys ) {
-        int count;
-        if ( GroupCounts.TryGetValue( project, out count ) && count > 0 ) {
+        if ( GroupCounts.TryGetValue( project, out var count ) && count > 0 ) {
           RefreshProject( project );
         }
       }
     }
 
-    public void Register( string projectName, string branchName ) {
-      var groupName = BuildGroupName( projectName, branchName );
+    public void Register( string buildId, string branchName ) {
+      var groupName = BuildGroupName( buildId, branchName );
       Groups.Add( Context.ConnectionId, groupName );
 
-      var groupTuple = Tuple.Create( projectName, branchName );
+      var groupTuple = ( buildId, branchName );
       GroupCounts.AddOrUpdate( groupTuple, key => 1, ( key, value ) => value + 1 );
       RefreshProject( groupTuple, true );
     }
 
-    public void Unregister( string projectName, string branchName ) {
-      var groupName = BuildGroupName( projectName, branchName );
+    public void Unregister( string buildId, string branchName ) {
+      var groupName = BuildGroupName( buildId, branchName );
       Groups.Remove( Context.ConnectionId, groupName );
 
-      var groupTuple = Tuple.Create( projectName, branchName );
+      var groupTuple = ( buildId, branchName );
       GroupCounts.AddOrUpdate( groupTuple, key => 0, ( key, value ) => value - 1 );
     }
 
-    private static void RefreshProject( Tuple<string, string> project, bool forceRefresh = false ) {
-      Build previousBuild;
-      PreviousBuild.TryGetValue( project, out previousBuild );
+    private static void RefreshProject( (string buildId, string branchName) project, bool forceRefresh = false ) {
+      PreviousBuild.TryGetValue( project, out var previousBuild );
 
       Task.Run( async () => {
         try {
-          var build = await BuildService.Get( project.Item1, project.Item2 );
+          var build = await BuildService.Get( project.buildId, project.branchName );
           if ( !forceRefresh && BuildComparer.AreIdentical( build, previousBuild ) ) {
             return;
           }
@@ -68,8 +66,8 @@ namespace Configit.BuildRadiator.Hubs {
           Update( build );
         } catch ( Exception ex ) {
           var buildError = new BuildError {
-            Name = project.Item1,
-            BranchName = project.Item2,
+            BuildId = project.buildId,
+            BranchName = project.branchName,
             Error = ex
           };
 
@@ -80,19 +78,19 @@ namespace Configit.BuildRadiator.Hubs {
     }
 
     internal static void Update( Build build ) {
-      var groupName = BuildGroupName( build.Name, build.BranchName );
+      var groupName = BuildGroupName( build.Id, build.BranchName );
       var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub>();
       context.Clients.Group( groupName ).Update( build );
     }
 
-    internal static void UpdateError( BuildError build ) {
-      var groupName = BuildGroupName( build.Name, build.BranchName );
+    internal static void UpdateError( BuildError buildError ) {
+      var groupName = BuildGroupName( buildError.BuildId, buildError.BranchName );
       var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub>();
-      context.Clients.Group( groupName ).UpdateError( build );
+      context.Clients.Group( groupName ).UpdateError( buildError );
     }
 
-    private static string BuildGroupName( string projectName, string branchName ) {
-      return $"Build${projectName}${branchName}";
+    private static string BuildGroupName( string buildId, string branchName ) {
+      return $"Build${buildId}${branchName}";
     }
 
     private static string EncodeBase64( string value ) {
@@ -102,7 +100,7 @@ namespace Configit.BuildRadiator.Hubs {
   }
 
   internal class BuildError {
-    public string Name { get; set; }
+    public string BuildId { get; set; }
 
     public string BranchName { get; set; }
 
