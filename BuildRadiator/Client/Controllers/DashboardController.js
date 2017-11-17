@@ -26,7 +26,7 @@
     function onProjectUpdateError( build ) {
       var tile = self.tiles.find( function( tile ) {
         return tile.type === 'project'
-          && tile.config.buildName === build.name
+          && tile.config.buildId === build.buildId
           && tile.config.branchName === build.branchName;
       } );
 
@@ -41,7 +41,7 @@
     function onProjectUpdate( build ) {
       var tile = self.tiles.find( function( tile ) {
         return tile.type === 'project'
-          && tile.config.buildName === build.name
+          && tile.config.buildId === build.id
           && tile.config.branchName === build.branchName;
       } );
 
@@ -58,7 +58,7 @@
       self.tiles.filter( function( t ) {
         return t.type === 'project';
       } ).forEach( function( tile ) {
-        BuildHub.server.register( tile.config.buildName, tile.config.branchName );
+        BuildHub.server.register( tile.config.buildId, tile.config.branchName );
       } );
     }
 
