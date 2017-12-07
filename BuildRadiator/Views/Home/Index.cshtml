@@ -10,8 +10,63 @@
     <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
                   class="build-tile"
                   ng-repeat-start="tile in ctrl.tiles"
+                  ng-if="tile.type == 'dual-project'"
+                  ng-click="ctrl.gotoProject( tile.primaryProject.url, $event )"
+                  ng-class="( tile.primaryError ? 'error-tile' : tile.primaryProject.status ) + ( tile.primaryProject.previouslyFailing ? ' previously-failing' : '' )">
+      
+      <div flex
+           class="secondary"
+           ng-if="tile.secondaryProject"
+           ng-class="( tile.secondaryError ? 'error-tile' : tile.secondaryProject.status ) + ( tile.secondaryProject.previouslyFailing ? ' previously-failing' : '' )"
+           layout="column"
+           layout-align="end center"
+           ng-click="ctrl.gotoProject( tile.secondaryProject.url, $event )">
+        <div class="caption">
+          {{ tile.config.secondaryCaption }}
+        </div>
+        <md-progress-linear ng-if="tile.secondaryProject.status === 'inProgress'" md-mode="determinate" value="{{ tile.secondaryProject.percentComplete }}"></md-progress-linear>
+      </div>
+
+      <div ng-if="tile.primaryError">
+        {{ tile.primaryError.Message }}
+      </div>
+
+      <div layout="column" layout-fill ng-if="!tile.primaryError">
+        @* Failed *@
+        <div class="user-list" ng-if="tile.primaryProject.status === 'failed'">
+          <gravatar email="tile.primaryProject.investigator" title="{{ tile.primaryProject.investigator }}" size="100" ng-if="tile.primaryProject.investigator"></gravatar><gravatar email="username" title="{{ username }}" ng-repeat="username in tile.primaryProject.committers | limitTo:ctrl.committerLimit" size="50" ng-if="!tile.primaryProject.investigator"></gravatar>
+          <div class="committer-overflow" ng-if="!tile.primaryProject.investigator && tile.primaryProject.committers.length > ctrl.committerLimit">{{ tile.primaryProject.committers.length }}</div>
+        </div>
+
+        @* In Progress *@
+        <div class="messages in-progress" ng-if="tile.primaryProject.status === 'inProgress'">
+          Started <strong>{{ tile.primaryProject.start | fromNow }}</strong><br/>
+          Should finish <strong>{{ tile.primaryProject.end | fromNow }}</strong>
+        </div>
+
+        @* Success *@
+        <div class="messages success" ng-if="tile.primaryProject.status === 'success'">
+          Built <strong>{{ tile.primaryProject.end | fromNow }}</strong><br/>
+          Took <strong>{{ tile.primaryProject.end | fromTime:tile.primaryProject.start }}</strong>
+        </div>
+
+        <div flex class="progress-box" layout="column" layout-align="end center" ng-if="tile.primaryProject.status === 'inProgress'">
+          <md-progress-linear md-mode="determinate" value="{{ tile.primaryProject.percentComplete }}"></md-progress-linear>
+        </div>
+      </div>
+
+      <md-grid-tile-footer>
+        <div layout="row">
+          <build-status-icon status="tile.primaryProject.status"></build-status-icon>
+          <h3 flex>{{ ::tile.caption }}</h3>
+        </div>
+      </md-grid-tile-footer>
+    </md-grid-tile>
+    
+    <md-grid-tile md-rowspan="{{ tile.rowSpan }}" md-colspan="{{ tile.columnSpan }}"
+                  class="build-tile"
                   ng-if="tile.type == 'project'"
-                  ng-click="ctrl.gotoProject( tile.project.url )"
+                  ng-click="ctrl.gotoProject( tile.project.url, $event )"
                   ng-class="( tile.error ? 'error-tile' : tile.project.status ) + ( tile.project.previouslyFailing ? ' previously-failing' : '' )">
 
       <div ng-if="tile.error">
@@ -26,13 +81,13 @@
 
         @* In Progress *@
         <div class="messages in-progress" ng-if="tile.project.status === 'inProgress'">
-          Started <strong>{{ tile.project.start | fromNow }}</strong><br/>
+          Started <strong>{{ tile.project.start | fromNow }}</strong><br />
           Should finish <strong>{{ tile.project.end | fromNow }}</strong>
         </div>
 
         @* Success *@
         <div class="messages success" ng-if="tile.project.status === 'success'">
-          Built <strong>{{ tile.project.end | fromNow }}</strong><br/>
+          Built <strong>{{ tile.project.end | fromNow }}</strong><br />
           Took <strong>{{ tile.project.end | fromTime:tile.project.start }}</strong>
         </div>
 

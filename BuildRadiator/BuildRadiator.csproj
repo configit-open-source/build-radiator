@@ -223,8 +223,10 @@
     <Compile Include="Helpers\XmlNodeExtensions.cs" />
     <Compile Include="Model\Builds\Build.cs" />
     <Compile Include="Model\Builds\BuildStatus.cs" />
+    <Compile Include="Model\Tiles\DualProjectTileConfig.cs" />
     <Compile Include="Model\Tiles\MessageTile.cs" />
     <Compile Include="Model\Tiles\MessageTileConfig.cs" />
+    <Compile Include="Model\Tiles\DualProjectTile.cs" />
     <Compile Include="Model\Tiles\ProjectTile.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Tiles\ProjectTileConfig.cs" />
