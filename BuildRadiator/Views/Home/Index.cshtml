@@ -11,6 +11,7 @@
                   class="build-tile"
                   ng-repeat-start="tile in ctrl.tiles"
                   ng-if="tile.type == 'project'"
+                  ng-click="ctrl.gotoProject( tile.project.url )"
                   ng-class="( tile.error ? 'error-tile' : tile.project.status ) + ( tile.project.previouslyFailing ? ' previously-failing' : '' )">
 
       <div ng-if="tile.error">

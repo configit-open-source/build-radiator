@@ -5,6 +5,7 @@ namespace Configit.BuildRadiator.Model.Builds {
   public class Build {
     public string Id { get; set; }
     public string Name { get; set; }
+    public string Url { get; set; }
     public string BranchName { get; set; }
     public BuildStatus Status { get; set; }
     public string StatusText { get; set; }
@@ -17,7 +18,7 @@ namespace Configit.BuildRadiator.Model.Builds {
     public int PercentComplete { get; set; }
     public string Investigator { get; set; }
     public ICollection<string> Committers { get; set; }
-
+    
     public Build() {
       Committers = new List<string>();
     }

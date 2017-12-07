@@ -46,6 +46,7 @@ namespace Configit.BuildRadiator.Helpers {
       var build = new Build {
         Id = _buildInfo.GetInnerText( "./buildType/@id" ),
         Name = _buildInfo.GetInnerText( "./buildType/@name" ),
+        Url = _buildInfo.GetInnerText( "./buildType/@webUrl" ),
         BranchName = isDefaultBranch ? BuildService.DefaultBranchName : _buildInfo.GetInnerText( "./@branchName" ),
         Status = isRunning ? BuildStatus.InProgress : ParseStatus( _buildInfo.GetInnerText( "./@status" ) ),
         StatusText = _buildInfo.GetInnerText( "./statusText" ),
