@@ -1,73 +1,72 @@
 ﻿.build-tile {
   color: White;
-}
 
-  .build-tile.unknown {
+  &.unknown {
     background: #9E9E9E;
   }
 
-  .build-tile.success, .build-tile.inProgress {
+  &.success, &.inProgress {
     background: #4CAF50;
   }
 
-    .build-tile.inProgress .secondary {
-      bottom: 58px;
-    }
+  &.inProgress .secondary {
+    bottom: 58px;
+  }
 
-    .build-tile.failed, .build-tile.inProgress.previously-failing {
-      background: #F44336;
-    }
+  &.failed, &.inProgress.previously-failing {
+    background: #F44336;
+  }
 
-  .build-tile .secondary {
+  .secondary {
     width: 33%;
     height: 33%;
     position: absolute;
     right: 5px;
     bottom: 53px;
     border: solid 1px #fff;
-  }
 
-    .build-tile .secondary.unknown {
+    &.unknown {
       background: #666;
     }
 
-    .build-tile .secondary.success, .build-tile .secondary.inProgress {
+    &.success, &.inProgress {
       background: #008000;
     }
 
-      .build-tile .secondary.failed, .build-tile .secondary.inProgress.previously-failing {
-        background: #ff0000;
-      }
+    &.failed, &.inProgress.previously-failing {
+      background: #ff0000;
+    }
 
-    .build-tile .secondary .caption {
+    .caption {
       font-size: 12px;
       margin: 10px;
     }
+  }
+}
 
 .message-tile {
   text-align: center;
-}
 
-  .message-tile.standard {
+
+  &.standard {
     background: #EEEEEE;
     font-size: 48px;
-  }
 
-    .message-tile.standard md-grid-tile-footer {
+    md-grid-tile-footer {
       color: rgba(0, 0, 0, 0.87);
     }
-
-  .message-tile.fancy {
-    background: #EEEEEE;
   }
 
-    .message-tile.fancy .title {
+  &.fancy {
+    background: #EEEEEE;
+
+    .title {
       font-size: 28px;
       color: #0A75C5;
       margin-top: -16px;
     }
 
-    .message-tile.fancy .quote {
+    .quote {
       font-size: 18px;
       margin-top: 10px;
       margin-left: 15px;
@@ -76,19 +75,21 @@
       z-index: 1000;
     }
 
-    .message-tile.fancy md-grid-tile-footer {
+    md-grid-tile-footer {
       color: rgba(0, 0, 0, 0.87);
     }
+  }
+}
 
 .clock-tile {
   text-align: center;
   background: #EEEEEE;
   font-size: 48px;
-}
 
-  .clock-tile md-grid-tile-footer {
+  md-grid-tile-footer {
     color: rgba(0, 0, 0, 0.87);
   }
+}
 
 .error-tile {
   background: #CC6600;
