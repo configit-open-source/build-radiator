@@ -8,22 +8,25 @@ namespace Configit.BuildRadiator.Controllers {
 
     static TileController() {
       Tiles = new Tile[] {
-        new ProjectTile( "Ace (master)", "Ace_Commit" ) { ColumnSpan = 2, RowSpan = 1 },
+        new ProjectTile( "Vcdb", "Vcdb_Commit" ),
+        new ProjectTile( "Grid", "Grid_Commit" ),
         new MessageTile( "Current Theme", "sprintTheme", "fancy" ) { ColumnSpan = 2 }, 
         new ClockTile( "UK Time", "Europe/London" ),
+        new DualProjectTile( "Ace Pricing (master)", "Deploy", "AcePricing_Commit", null, "AcePricing_Deploy_Daily", null ),
+
         new ProjectTile( "Ngyn", "Ngyn_Commit" ),
-        new ProjectTile( "Grid", "Grid_Commit" ),
-        new ProjectTile( "Vcdb", "Vcdb_Commit" ),
         new ProjectTile( "Licensing", "Licensing_Commit" ),
+        new ProjectTile( "License Generator", "LicenseGenerator_Commit" ),
         new ProjectTile( "Installer", "Installer_Commit" ),
+        new ProjectTile( "Database Comparer", "DatabaseComparer_Commit" ),
         new ProjectTile( "Database Installer", "DatabaseInstaller_Commit" ),
-        new ProjectTile( "Ace Upgrade", "Ace_Deploy_DailyUpgrade" ),
-        new ProjectTile( "Ace (Selene)", "Ace_Commit", "selene" ),
-        new ProjectTile( "Ace (Hydrogen)", "Ace_Commit", "hydrogen" ),
-        new ProjectTile( "Ace (Indigo)", "Ace_Commit", "indigo" ),
-        new ProjectTile( "Ace Daily", "Ace_Deploy_Daily" ),
+
+        new DualProjectTile( "Ace (master)", "Deploy", "Ace_Commit", null, "Ace_Deploy_Daily", null ),
+        new DualProjectTile( "Ace (selene)", "Deploy", "Ace_Commit", "selene", "Ace_Deploy_Daily_Selene", null ),
+        new DualProjectTile( "Ace (hydrogen)", "Deploy", "Ace_Commit", "hydrogen", "Ace_Deploy_Daily_Hydrogen", null ),
+        new DualProjectTile( "Ace (indigo)", "Deploy", "Ace_Commit", "indigo", "Ace_Deploy_Daily_Indigo", null ),
         new ProjectTile( "Ace End To End", "Ace_Deploy_EndToEnd" ),
-        new ProjectTile( "Pricing Daily", "AcePricing_DailyDeploy" )
+        new ProjectTile( "Ace Upgrade", "Ace_Deploy_DailyUpgrade" )
       };
     }
 
