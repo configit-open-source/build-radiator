@@ -40,14 +40,14 @@
 
         @* In Progress *@
         <div class="messages in-progress" ng-if="tile.primaryProject.status === 'inProgress'">
-          Started <strong>{{ tile.primaryProject.start | fromNow }}</strong><br/>
-          Should finish <strong>{{ tile.primaryProject.end | fromNow }}</strong>
+          Started <strong><moment-from-now value="tile.primaryProject.start"></moment-from-now></strong><br/>
+          Should finish <strong><moment-from-now value="tile.primaryProject.end"></moment-from-now></strong>
         </div>
 
         @* Success *@
         <div class="messages success" ng-if="tile.primaryProject.status === 'success'">
-          Built <strong>{{ tile.primaryProject.end | fromNow }}</strong><br/>
-          Took <strong>{{ tile.primaryProject.end | fromTime:tile.primaryProject.start }}</strong>
+          Built <strong><moment-from-now value="tile.primaryProject.end"></moment-from-now></strong><br/>
+          Took <strong><moment-from-time start-value="tile.primaryProject.start" end-value="tile.primaryProject.end"></moment-from-time></strong>
         </div>
 
         <div flex class="progress-box" layout="column" layout-align="end center" ng-if="tile.primaryProject.status === 'inProgress'">
@@ -81,14 +81,14 @@
 
         @* In Progress *@
         <div class="messages in-progress" ng-if="tile.project.status === 'inProgress'">
-          Started <strong>{{ tile.project.start | fromNow }}</strong><br />
-          Should finish <strong>{{ tile.project.end | fromNow }}</strong>
+          Started <strong><moment-from-now value="tile.project.start"></moment-from-now></strong><br />
+          Should finish <strong><moment-from-now value="tile.project.end"></moment-from-now></strong>
         </div>
 
         @* Success *@
         <div class="messages success" ng-if="tile.project.status === 'success'">
-          Built <strong>{{ tile.project.end | fromNow }}</strong><br />
-          Took <strong>{{ tile.project.end | fromTime:tile.project.start }}</strong>
+          Built <strong><moment-from-now value="tile.project.end"></moment-from-now></strong><br />
+          Took <strong><moment-from-time start-value="tile.project.start" end-value="tile.project.end"></moment-from-time></strong>
         </div>
 
         <div flex class="progress-box" layout="column" layout-align="end center" ng-if="tile.project.status === 'inProgress'">

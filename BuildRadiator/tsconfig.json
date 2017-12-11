@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "outFile": "Client-Release/bundle.js",
+    "allowJs": true,
+    "jsx": "react",
+    "alwaysStrict": true 
+  },
+  "include": [
+    "Client/globals.d.ts",
+    "Client/app.ts",
+    "Client/Controllers/**/*",
+    "Client/Directives/**/*",
+    "Client/Filters/**/*",
+    "Client/Services/**/*"
+  ],
+  // Don't compile using VS, we'll used tsc --watch instead
+  "compileOnSave": false,
+  "atom": { "rewriteTsconfig": false }
+}

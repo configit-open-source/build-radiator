@@ -115,3 +115,6 @@ UpgradeLog*.XML
 
 # Harvested WiX files
 Harvested.wxs
+
+node_modules
+Client-Release

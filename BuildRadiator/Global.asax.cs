@@ -3,7 +3,6 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 using Configit.BuildRadiator.Helpers;
 using Microsoft.AspNet.SignalR;
@@ -22,7 +21,6 @@ namespace Configit.BuildRadiator {
       ConfigureWebApi( GlobalConfiguration.Configuration, authentication );
       ConfigureMvc( GlobalFilters.Filters, authentication );
       ConfigureSignalR( GlobalHost.DependencyResolver );
-      ConfigureBundles( BundleTable.Bundles );
       ConfigureRoutes( RouteTable.Routes );
     }
 
@@ -48,33 +46,6 @@ namespace Configit.BuildRadiator {
           new StringEnumConverter { CamelCaseText = true }
         }
       };
-    }
-
-    private static void ConfigureBundles( BundleCollection bundles ) {
-      // Stylesheet bundle
-      var styleBundle = new StyleBundle( "~/content/styles" )
-        .Include( "~/Content/angular-material.css" )
-        .Include( "~/Content/styles.css" );
-
-      // Library scripts
-      var scriptBundle = new ScriptBundle( "~/bundles/scripts" )
-        .Include( "~/Scripts/jquery-{version}.js" )
-        .Include( "~/Scripts/jquery.signalR-{version}.js" )
-        .Include( "~/Scripts/angular.js" )
-        .Include( "~/Scripts/moment/moment.js" )
-        .Include( "~/Scripts/moment/moment-timezone-with-data-2010-2020.js" )
-        .IncludeDirectory( "~/Scripts", "*.js" )
-        .Include( "~/Scripts/i18n/angular-locale_en-gb.js" )
-        .Include( "~/Scripts/ngyn/ngyn.js" )
-        .Include( "~/Scripts/ngyn/ngyn-server-connection.js" );
-
-      // Angular scripts
-      var appBundle = new ScriptBundle( "~/bundles/application" )
-        .IncludeDirectory( "~/Client", "*.js", true );
-
-      bundles.Add( styleBundle );
-      bundles.Add( scriptBundle );
-      bundles.Add( appBundle );
     }
 
     public static void ConfigureRoutes( RouteCollection routes ) {
