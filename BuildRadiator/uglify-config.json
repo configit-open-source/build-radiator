@@ -1,8 +1,7 @@
 {
   "mangle": true,
   "compress": {
-    "booleans": true,
-    "cascade": true,
+    "booleans": true,    
     "collapse_vars": true,
     "comparisons": true,
     "conditionals": true,
