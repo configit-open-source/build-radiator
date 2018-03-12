@@ -42,12 +42,13 @@ namespace Configit.BuildRadiator.Helpers {
       var isRunning = bool.Parse( _buildInfo.GetInnerText( "./@running", "false" ) );
 
       var isDefaultBranch = bool.Parse( _buildInfo.GetInnerText( "./@defaultBranch", "false" ) );
+      var branchName = isDefaultBranch ? BuildService.DefaultBranchName : _buildInfo.GetInnerText( "./@branchName" );
 
       var build = new Build {
         Id = _buildInfo.GetInnerText( "./buildType/@id" ),
         Name = _buildInfo.GetInnerText( "./buildType/@name" ),
-        Url = _buildInfo.GetInnerText( "./buildType/@webUrl" ),
-        BranchName = isDefaultBranch ? BuildService.DefaultBranchName : _buildInfo.GetInnerText( "./@branchName" ),
+        Url = BuildUrl( _buildInfo.GetInnerText( "./buildType/@webUrl" ), branchName ),
+        BranchName = branchName,
         Status = isRunning ? BuildStatus.InProgress : ParseStatus( _buildInfo.GetInnerText( "./@status" ) ),
         StatusText = _buildInfo.GetInnerText( "./statusText" ),
         Start = ParseDate( _buildInfo.GetInnerText( "./startDate" ) ),
@@ -83,6 +84,12 @@ namespace Configit.BuildRadiator.Helpers {
       }
 
       return build;
+    }
+
+    private static string BuildUrl( string baseUrl, string branchName ) {
+      var delimeter = baseUrl.Contains( "?" ) ? "&" : "?";
+
+      return $"{baseUrl}{delimeter}branch={Uri.EscapeDataString( branchName )}";
     }
 
     private static DateTime GetEndDate( XmlNode buildInfo, bool isRunning ) {
