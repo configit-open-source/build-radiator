@@ -10,8 +10,9 @@ namespace Configit.BuildRadiator.Controllers {
       Tiles = new Tile[] {
         new ProjectTile( "Vcdb", "Vcdb_Commit" ),
         new ProjectTile( "Grid", "Grid_Commit" ),
-        new MessageTile( "Current Theme", "sprintTheme", "fancy" ) { ColumnSpan = 2 }, 
+        new MessageTile( "Next Release", "currentRelease" ), 
         new ClockTile( "UK Time", "Europe/London" ),
+        new ProjectTile( "Resource Repository", "LegacyResourceRepository_Commit" ),
         new DualProjectTile( "Ace Pricing (master)", "Deploy", "AcePricing_Commit", null, "AcePricing_Deploy_Daily", null ),
 
         new ProjectTile( "Ngyn", "Ngyn_Commit" ),
