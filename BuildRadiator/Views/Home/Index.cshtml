@@ -16,13 +16,14 @@
       
       <div flex
            class="secondary"
-           ng-if="tile.secondaryProject"
+           ng-if="tile.secondaryProject || tile.secondaryError"
            ng-class="( tile.secondaryError ? 'error-tile' : tile.secondaryProject.status ) + ( tile.secondaryProject.previouslyFailing ? ' previously-failing' : '' )"
            layout="column"
            layout-align="end center"
            ng-click="ctrl.gotoProject( tile.secondaryProject.url, $event )">
         <div class="caption">
-          {{ tile.config.secondaryCaption }}
+          <span ng-if="tile.secondaryError">ERROR</span>
+          <span ng-if="!tile.secondaryError">{{ tile.config.secondaryCaption }}</span>
         </div>
         <md-progress-linear ng-if="tile.secondaryProject.status === 'inProgress'" md-mode="determinate" value="{{ tile.secondaryProject.percentComplete }}"></md-progress-linear>
       </div>
