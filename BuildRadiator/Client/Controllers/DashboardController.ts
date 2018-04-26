@@ -2,7 +2,7 @@
 
 var module = angular.module( 'BuildRadiator' );
 
-var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, TileConfiguration, BuildHub, MessageHub ) {
+var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, TileLayoutHub, BuildHub, MessageHub ) {
   var ctrl = this;
 
   ctrl.committerLimit = 11;
@@ -34,7 +34,7 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
       
     const secondaryProjectTiles = ctrl.tiles.filter( t =>
       t.type === 'dual-project'
-      && t.config.secondaryBuildId === build.BuildId
+      && t.config.secondaryBuildId === build.buildId
       && t.config.secondaryBranchName === build.branchName );
 
     secondaryProjectTiles.forEach( t => t.secondaryError = build.error );
@@ -82,6 +82,17 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function registerProjects() {
+    if( ctrl.previousTiles ) {
+      ctrl.previousTiles.filter( t => t.type === 'project' ).forEach( t => {
+        BuildHub.server.unregister( t.config.buildId, t.config.branchName );
+      } );
+
+      ctrl.previousTiles.filter( t => t.type === 'dual-project' ).forEach( t => {
+        BuildHub.server.unregister( t.config.primaryBuildId, t.config.primaryBranchName );
+        BuildHub.server.unregister( t.config.secondaryBuildId, t.config.secondaryBranchName );
+      } );
+    }
+
     ctrl.tiles.filter( t => t.type === 'project' ).forEach( t => {
       BuildHub.server.register( t.config.buildId, t.config.branchName );
     } );
@@ -98,6 +109,16 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
     } );
   }
 
+  function onTileLayoutUpdate() {
+    TileLayoutHub.server.get().then( tiles => {
+      ctrl.previousTiles = ctrl.tiles;
+      ctrl.tiles = tiles;
+
+      registerProjects();
+      registerMessages();
+    } );
+  }
+
   ctrl.gotoProject = ( url : string, e ) => {
     if ( !url ) {
       return;
@@ -107,17 +128,22 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
     e.stopPropagation();
   }
 
-  TileConfiguration.get().then( tiles => {
-    this.tiles = tiles;
+  TileLayoutHub.connect( $scope, {
+    update: onTileLayoutUpdate
+  } ).done( () => {
+    TileLayoutHub.server.get().then( tiles => {
+      ctrl.previousTiles = ctrl.tiles;
+      ctrl.tiles = tiles;
 
-    BuildHub.connect( $scope, {
-      update: onProjectUpdate,
-      updateError: onProjectUpdateError
-    } ).done( registerProjects );
+      BuildHub.connect( $scope, {
+        update: onProjectUpdate,
+        updateError: onProjectUpdateError
+      } ).done( registerProjects );
 
-    MessageHub.connect( $scope, {
-      update: onMessageUpdate
-    } ).done( registerMessages );
+      MessageHub.connect( $scope, {
+        update: onMessageUpdate
+      } ).done( registerMessages );
+    } );
   } );
 } 
 

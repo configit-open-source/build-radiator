@@ -1,0 +1,165 @@
+﻿{
+  "tiles": [
+    {
+      "caption": "Vcdb", 
+      "type": "project", 
+      "config": {
+        "buildId": "Vcdb_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Grid", 
+      "type": "project",
+      "config": {
+        "buildId": "Grid_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Ngyn", 
+      "type": "project", 
+      "config": {
+        "buildId": "Ngyn_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Resource Repository", 
+      "type": "project", 
+      "config": {
+        "buildId": "LegacyResourceRepository_Commit",
+        "branchName": null 
+      }
+    },
+    {
+      "caption": "UK Time", 
+      "type": "clock", 
+      "config": {
+        "timezone": "Europe/London"
+      }
+    },
+    {
+      "caption": "Ace Pricing (master)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "AcePricing_Commit",
+        "primaryBranchName": null,
+        "secondaryBuildId": "AcePricing_Deploy_Daily",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Licensing", 
+      "type": "project", 
+      "config": {
+        "buildId": "Licensing_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "License Generator", 
+      "type": "project", 
+      "config": {
+        "buildId": "LicenseGenerator_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Installer", 
+      "type": "project", 
+      "config": {
+        "buildId": "Installer_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Database Comparer", 
+      "type": "project", 
+      "config": {
+        "buildId": "DatabaseComparer_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Database Installer", 
+      "type": "project", 
+      "config": {
+        "buildId": "DatabaseInstaller_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Ace Upgrade", 
+      "type": "project", 
+      "config": {
+        "buildId": "Ace_Deploy_DailyUpgrade",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Ace (master)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": null,
+        "secondaryBuildId": "Ace_Deploy_Daily",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Ace (selene)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": "selene",
+        "secondaryBuildId": "Ace_Deploy_Daily_Selene",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Ace (hydrogen)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": "hydrogen",
+        "secondaryBuildId": "Ace_Deploy_Daily_Hydrogen",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Ace (indigo)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": "indigo",
+        "secondaryBuildId": "Ace_Deploy_Daily_Indigo",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Ace (bowser)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": "bowser",
+        "secondaryBuildId": "Ace_Deploy_Daily_Bowser",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Ace End To End", 
+      "type": "project", 
+      "config": {
+        "buildId": "Ace_Deploy_EndToEnd",
+        "branchName": null
+      }
+    }
+  ]
+}

@@ -144,7 +144,9 @@
     <TypeScriptCompile Include="Client\Directives\Gravatar.ts" />
     <TypeScriptCompile Include="Client\Services\BuildHub.ts" />
     <TypeScriptCompile Include="Client\Services\MessageHub.ts" />
-    <TypeScriptCompile Include="Client\Services\TileConfiguration.ts" />
+    <TypeScriptCompile Include="Client\Services\TileLayoutHub.ts" />
+    <Content Include="App_Data\TileLayout\default.json" />
+    <Content Include="App_Data\messages.json" />
     <None Include="Content\angular-material.css" />
     <Content Include="Content\Icons\success.svg" />
     <Content Include="Content\Icons\failed.svg" />
@@ -191,21 +193,26 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\MessageReader.cs" />
+    <Compile Include="Helpers\TileExtensions.cs" />
+    <Compile Include="Helpers\TileLayoutReader.cs" />
     <Compile Include="Helpers\BuildComparer.cs" />
     <Compile Include="Helpers\BuildService.cs" />
     <Compile Include="Helpers\DateTimeExtensions.cs" />
     <Compile Include="Helpers\MessageService.cs" />
     <Compile Include="Helpers\SignalRJsonSerializer.cs" />
+    <Compile Include="Helpers\TileService.cs" />
     <Compile Include="Helpers\UrlHelperExtensions.cs" />
     <Compile Include="Hubs\IBuildHubClient.cs" />
     <Compile Include="Hubs\IMessageHubClient.cs" />
+    <Compile Include="Hubs\ITileLayoutHubClient.cs" />
     <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="Hubs\BuildHub.cs" />
+    <Compile Include="Hubs\TileLayoutHub.cs" />
     <Compile Include="Model\Tiles\ClockTileConfig.cs" />
     <Compile Include="Model\Tiles\ClockTile.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
