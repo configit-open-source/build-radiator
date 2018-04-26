@@ -1,0 +1,88 @@
+﻿{
+  "tiles": [
+    {
+      "caption": "JLR Theme", 
+      "type": "message", 
+      "config": {
+        "messageKey": "jlrTheme"
+      },
+      "columnSpan": 2 
+    },
+    {
+      "caption": "JLR (master)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Jlr_AceCommit",
+        "primaryBranchName": null,
+        "secondaryBuildId": "Jlr_AceDailyDeploy",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Ace Theme", 
+      "type": "message", 
+      "config": {
+        "messageKey": "aceReleaseInfo"
+      }
+    },
+    {
+      "caption": "Ace (master)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": null,
+        "secondaryBuildId": "Ace_Deploy_Daily",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "UK Time", 
+      "type": "clock", 
+      "config": {
+        "timezone": "Europe/London"
+      }
+    },
+    {
+      "caption": "John Deere Theme", 
+      "type": "message", 
+      "config": {
+        "messageKey": "jdTheme"
+      }
+    },
+    {
+      "caption": "John Deere (master)", 
+      "type": "dual-project", 
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "JohnDeere_JohnDeereCommit",
+        "primaryBranchName": null,
+        "secondaryBuildId": "JohnDeere_JohnDeerDaily",
+        "secondaryBranchName": null
+      }
+    },
+    {
+      "caption": "Volvo Theme", 
+      "type": "message", 
+      "config": {
+        "messageKey": "volvoTheme"
+      }
+    },
+    {
+      "caption": "Volvo (master)", 
+      "type": "project", 
+      "config": {
+        "buildId": "Volvo_Commit",
+        "branchName": null
+      }
+    },
+    {
+      "caption": "Delivery Team Theme", 
+      "type": "message", 
+      "config": {
+        "messageKey": "ukDeliveryDevTheme"
+      }
+    }
+  ]
+}

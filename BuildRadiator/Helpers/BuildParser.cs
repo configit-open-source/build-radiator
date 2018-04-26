@@ -11,6 +11,7 @@ namespace Configit.BuildRadiator.Helpers {
     private readonly XmlNode _buildInfo;
     private readonly XmlNodeList _investigationInfo;
     private readonly XmlNodeList _changesSinceLastFailure;
+    private readonly bool _noChangesInfo;
 
     public BuildParser( XmlNode buildInfo, XmlNode investigationInfo, XmlDocument changesSinceFailureInfo ) {
       if ( buildInfo == null ) {
@@ -26,6 +27,8 @@ namespace Configit.BuildRadiator.Helpers {
       _buildInfo = buildInfo.SelectSingleNode( "./build" );
       _investigationInfo = investigationInfo.SelectNodes( "./investigations/investigation" );
       _changesSinceLastFailure = changesSinceFailureInfo.SelectNodes( "./builds/build/changes/change" );
+
+      _noChangesInfo = string.IsNullOrEmpty( changesSinceFailureInfo.InnerXml );
 
       if ( _buildInfo == null ) {
         throw new Exception( "Invalid xml" );
@@ -67,7 +70,7 @@ namespace Configit.BuildRadiator.Helpers {
 
       if ( build.Status != BuildStatus.Failed ) {
         if ( isRunning ) {
-          build.PreviouslyFailing = _changesSinceLastFailure.Count > 0;
+          build.PreviouslyFailing = _changesSinceLastFailure.Count > 0 || _noChangesInfo;
         }
         return build;
       }

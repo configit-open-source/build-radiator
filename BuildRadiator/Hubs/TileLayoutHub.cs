@@ -13,17 +13,17 @@ namespace Configit.BuildRadiator.Hubs {
       TileService.TileLayoutChanged += TileServiceOnTileLayoutChanged;
     }
 
-    private static void TileServiceOnTileLayoutChanged( object sender, EventArgs eventArgs ) {
-      Update();
+    private static void TileServiceOnTileLayoutChanged( object sender, LayoutEventArgs e ) {
+      Update( e.LayoutName );
     }
 
-    public IReadOnlyList<Tile> Get() {
-      return TileService.Get();
+    public IReadOnlyList<Tile> Get( string layoutName ) {
+      return TileService.Get( layoutName );
     }
 
-    internal static void Update() {
-      var context = GlobalHost.ConnectionManager.GetHubContext<TileLayoutHub>();
-      context.Clients.All.Update();
+    internal static void Update( string layoutName ) {
+      var context = GlobalHost.ConnectionManager.GetHubContext<TileLayoutHub, ITileLayoutHubClient>();
+      context.Clients.All.Update( layoutName );
     }
   }
 }

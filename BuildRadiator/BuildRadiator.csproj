@@ -147,6 +147,7 @@
     <TypeScriptCompile Include="Client\Services\TileLayoutHub.ts" />
     <Content Include="App_Data\TileLayout\default.json" />
     <Content Include="App_Data\messages.json" />
+    <Content Include="App_Data\TileLayout\uk-delivery.json" />
     <None Include="Content\angular-material.css" />
     <Content Include="Content\Icons\success.svg" />
     <Content Include="Content\Icons\failed.svg" />
@@ -193,6 +194,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\LayoutEventArgs.cs" />
     <Compile Include="Helpers\MessageReader.cs" />
     <Compile Include="Helpers\TileExtensions.cs" />
     <Compile Include="Helpers\TileLayoutReader.cs" />

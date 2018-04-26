@@ -22,7 +22,7 @@ namespace Configit.BuildRadiator.Hubs {
     }
 
     internal static void Update( Message message ) {
-      var context = GlobalHost.ConnectionManager.GetHubContext<MessageHub>();
+      var context = GlobalHost.ConnectionManager.GetHubContext<MessageHub, IMessageHubClient>();
       context.Clients.All.Update( message );
     }
 
