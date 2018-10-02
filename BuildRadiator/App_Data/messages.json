@@ -1,6 +1,26 @@
 ﻿{
   "currentRelease": {
-    "content": "<div>v5.0</div><div class=\"small\">Bowser</div><div class=\"small\">23 Apr 2018</div>",
+    "content": "<div>v5.0</div><div class=\"small\">Chomp</div><div class=\"small\">01 Oct 2018</div>",
     "classes": [ "standard" ]
-  }
+  },
+  "jlrTheme": {
+    "content": "<div class=\"title\">Release Anglesey SOW 26,29,33 &amp; Support Maintenance</div><div class=\"quote\">Last Release: Ace 4.1.7, JLR 13.1.0</div>",
+    "classes": [ "activities" ]
+  },
+  "jdTheme": {
+    "content": "<div class=\"title\">Product Offering Service</div><div class=\"quote\">Last Release Ace-v3.2.6-jd-v1.1.1</div>",
+    "classes": [ "fancy" ]
+  },
+  "volvoTheme": {
+    "content": "<div class=\"title\">Ace Pricing &amp; Quote integration</div><div class=\"quote\">Phase I (Ace-v4.0.8)</div>",
+    "classes": [ "fancy" ]
+  },
+  "ukDeliveryDevTheme": {
+    "content": "<div class=\"title\">Experiments</div><div class=\"quote\">Cake, Docker, E2E Test Automation, NuKeeper</div>",
+    "classes": [ "activities" ]
+  },
+  "aceReleaseInfo": {
+    "content": "<div class=\"title\">Releases</div><div class=\"quote\">Ace 5.0 Chomp 1st October 2018</div>",
+    "classes": [ "fancy" ]
+  } 
 }

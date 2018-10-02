@@ -2,7 +2,7 @@
 
 var module = angular.module( 'BuildRadiator' );
 
-var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, TileLayoutHub, BuildHub, MessageHub ) {
+var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
   var ctrl = this;
 
   ctrl.committerLimit = 11;
@@ -109,8 +109,12 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
     } );
   }
 
-  function onTileLayoutUpdate() {
-    TileLayoutHub.server.get().then( tiles => {
+  function onTileLayoutUpdate( layoutName ) {
+    if( TileLayoutConfig.layoutName.toLowerCase() !== layoutName.toLowerCase() ) {
+      return;
+    }
+
+    TileLayoutHub.server.get( TileLayoutConfig.layoutName ).then( tiles => {
       ctrl.previousTiles = ctrl.tiles;
       ctrl.tiles = tiles;
 
@@ -131,7 +135,7 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   TileLayoutHub.connect( $scope, {
     update: onTileLayoutUpdate
   } ).done( () => {
-    TileLayoutHub.server.get().then( tiles => {
+    TileLayoutHub.server.get( TileLayoutConfig.layoutName ).then( tiles => {
       ctrl.previousTiles = ctrl.tiles;
       ctrl.tiles = tiles;
 

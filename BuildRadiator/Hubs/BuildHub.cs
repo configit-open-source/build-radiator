@@ -39,7 +39,7 @@ namespace Configit.BuildRadiator.Hubs {
       var groupName = BuildGroupName( buildId, branchName );
       Groups.Add( Context.ConnectionId, groupName );
 
-      var groupTuple = ( buildId, branchName );
+      var groupTuple = (buildId, branchName);
       GroupCounts.AddOrUpdate( groupTuple, key => 1, ( key, value ) => value + 1 );
       RefreshProject( groupTuple, true );
     }
@@ -48,7 +48,7 @@ namespace Configit.BuildRadiator.Hubs {
       var groupName = BuildGroupName( buildId, branchName );
       Groups.Remove( Context.ConnectionId, groupName );
 
-      var groupTuple = ( buildId, branchName );
+      var groupTuple = (buildId, branchName);
       GroupCounts.AddOrUpdate( groupTuple, key => 0, ( key, value ) => value - 1 );
     }
 
@@ -64,7 +64,8 @@ namespace Configit.BuildRadiator.Hubs {
 
           PreviousBuild.AddOrUpdate( project, build, ( k, v ) => build );
           Update( build );
-        } catch ( Exception ex ) {
+        }
+        catch ( Exception ex ) {
           var buildError = new BuildError {
             BuildId = project.buildId,
             BranchName = project.branchName,
@@ -79,13 +80,13 @@ namespace Configit.BuildRadiator.Hubs {
 
     internal static void Update( Build build ) {
       var groupName = BuildGroupName( build.Id, build.BranchName );
-      var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub>();
+      var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub, IBuildHubClient>();
       context.Clients.Group( groupName ).Update( build );
     }
 
     internal static void UpdateError( BuildError buildError ) {
       var groupName = BuildGroupName( buildError.BuildId, buildError.BranchName );
-      var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub>();
+      var context = GlobalHost.ConnectionManager.GetHubContext<BuildHub, IBuildHubClient>();
       context.Clients.Group( groupName ).UpdateError( buildError );
     }
 
@@ -99,7 +100,7 @@ namespace Configit.BuildRadiator.Hubs {
     }
   }
 
-  internal class BuildError {
+  public class BuildError {
     public string BuildId { get; set; }
 
     public string BranchName { get; set; }

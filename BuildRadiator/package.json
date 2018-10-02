@@ -7,27 +7,24 @@
   "scripts": {
     "ts:watch": "gulp ts:watch",
     "build:watch": "gulp build:watch",
-
     "start": "npm run ts:watch",
-
     "build:release": "gulp build:release"
   },
   "devDependencies": {
     "@types/angular": "^1.6.28",
-    "@types/es6-shim": "0.31.35",  
+    "@types/es6-shim": "0.31.35",
     "del": "3.0.0",
     "gulp": "3.9.1",
     "gulp-clean-css": "3.7.0",
-    "gulp-css-url-adjuster": "0.2.3", 
+    "gulp-css-url-adjuster": "0.2.3",
     "gulp-concat": "2.6.1",
     "gulp-less": "3.3.2",
     "gulp-ng-annotate": "2.0.0",
-    "gulp-shell": "0.5.2", 
-    "gulp-typescript": "3.2.1", 
+    "gulp-shell": "0.5.2",
+    "gulp-typescript": "3.2.1",
     "gulp-uglify": "3.0.0",
     "merge-stream": "1.0.1",
     "pump": "1.0.2",
     "typescript": "2.5.0"
   }
 }
-
