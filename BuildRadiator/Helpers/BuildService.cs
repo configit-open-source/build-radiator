@@ -31,7 +31,7 @@ namespace Configit.BuildRadiator.Helpers {
 
     public async Task<Build> Get( string buildId, string branchName ) {
       var client = CreateClient();
-      
+
       var buildInfoTask = Task.Run( () => GetBuildInfo( client, buildId, branchName ) );
       var investigationInfoTask = Task.Run( () => GetInvestigationInfo( client, buildId ) );
       var changesSinceFailureInfoTask = Task.Run( () => GetChangesSinceFailureInfo( client, buildId, branchName ) );
@@ -44,7 +44,8 @@ namespace Configit.BuildRadiator.Helpers {
     }
 
     private static async Task<XmlDocument> GetBuildInfo( HttpClient client, string buildId, string branchName ) {
-      var url = $"builds/buildType:id:{Uri.EscapeDataString( buildId )},running:any,branch:{Uri.EscapeUriString( branchName )},count:1?fields=defaultBranch,buildType,branchName,status,statusText,startDate,finishDate,running,running-info";
+      var branchQuery = !string.IsNullOrWhiteSpace( branchName ) ? $",branch:{Uri.EscapeUriString( branchName )}" : null;
+      var url = $"builds/buildType:id:{Uri.EscapeDataString( buildId )},running:any{branchQuery},count:1?fields=defaultBranch,buildType,branchName,status,statusText,startDate,finishDate,running,running-info";
       var cacheBuster = $"&t={DateTime.UtcNow.Ticks}";
 
       var data = await client.GetStringAsync( url + cacheBuster );
@@ -68,7 +69,8 @@ namespace Configit.BuildRadiator.Helpers {
     }
 
     private static async Task<XmlDocument> GetChangesSinceFailureInfo( HttpClient client, string buildId, string branchName ) {
-      var buildLocator = $"buildType:id:{Uri.EscapeDataString( buildId )},branch:{Uri.EscapeDataString( branchName )}";
+      var branchQuery = !string.IsNullOrWhiteSpace( branchName ) ? $",branch:{Uri.EscapeUriString( branchName )}" : null;
+      var buildLocator = $"buildType:id:{Uri.EscapeDataString( buildId )}{branchQuery}";
       var url = $"builds/?locator={buildLocator},status:failure,running:false,sinceBuild:({buildLocator},status:success,running:false)&fields=build(changes(change(username,user(email))))";
       var cacheBuster = $"&t={DateTime.UtcNow.Ticks}";
 
@@ -76,7 +78,8 @@ namespace Configit.BuildRadiator.Helpers {
       try {
         var data = await client.GetStringAsync( url + cacheBuster );
         document.LoadXml( data );
-      } catch {
+      }
+      catch {
         Debug.WriteLine( "Could not load changes, probably because there are no successful builds" );
       }
       return document;

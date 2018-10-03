@@ -14,9 +14,9 @@
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Jlr_AceCommit",
-        "primaryBranchName": null,
+        "primaryBranchName": "<default>",
         "secondaryBuildId": "Jlr_AceDailyDeploy",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
@@ -32,9 +32,9 @@
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
-        "primaryBranchName": null,
+        "primaryBranchName": "<default>",
         "secondaryBuildId": "Ace_Deploy_Daily",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
@@ -57,9 +57,9 @@
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "JohnDeere_JohnDeereCommit",
-        "primaryBranchName": null,
+        "primaryBranchName": "<default>",
         "secondaryBuildId": "JohnDeere_JohnDeerDaily",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
@@ -74,7 +74,7 @@
       "type": "project", 
       "config": {
         "buildId": "Volvo_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {

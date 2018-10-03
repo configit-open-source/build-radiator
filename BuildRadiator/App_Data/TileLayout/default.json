@@ -5,7 +5,7 @@
       "type": "project", 
       "config": {
         "buildId": "Vcdb_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -13,7 +13,7 @@
       "type": "project",
       "config": {
         "buildId": "Grid_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -21,7 +21,7 @@
       "type": "project", 
       "config": {
         "buildId": "Ngyn_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -29,7 +29,7 @@
       "type": "project", 
       "config": {
         "buildId": "LegacyResourceRepository_Commit",
-        "branchName": null 
+        "branchName": "<default>" 
       }
     },
     {
@@ -45,9 +45,9 @@
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "AcePricing_Commit",
-        "primaryBranchName": null,
+        "primaryBranchName": "<default>",
         "secondaryBuildId": "AcePricing_Deploy_Daily",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
@@ -55,15 +55,7 @@
       "type": "project", 
       "config": {
         "buildId": "Licensing_Commit",
-        "branchName": null
-      }
-    },
-    {
-      "caption": "License Generator", 
-      "type": "project", 
-      "config": {
-        "buildId": "LicenseGenerator_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -71,7 +63,7 @@
       "type": "project", 
       "config": {
         "buildId": "Installer_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -79,7 +71,7 @@
       "type": "project", 
       "config": {
         "buildId": "DatabaseComparer_Commit",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -87,7 +79,15 @@
       "type": "project", 
       "config": {
         "buildId": "DatabaseInstaller_Commit",
-        "branchName": null
+        "branchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace End To End", 
+      "type": "project", 
+      "config": {
+        "buildId": "Ace_Deploy_EndToEnd",
+        "branchName": "<default>"
       }
     },
     {
@@ -95,7 +95,7 @@
       "type": "project", 
       "config": {
         "buildId": "Ace_Deploy_DailyUpgrade",
-        "branchName": null
+        "branchName": "<default>"
       }
     },
     {
@@ -104,61 +104,62 @@
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
-        "primaryBranchName": null,
+        "primaryBranchName": "<default>",
         "secondaryBuildId": "Ace_Deploy_Daily",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
-      "caption": "Ace (selene)", 
+      "caption": "Ace (v3.1.x)", 
       "type": "dual-project", 
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
         "primaryBranchName": "selene",
         "secondaryBuildId": "Ace_Deploy_Daily_Selene",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
-      "caption": "Ace (hydrogen)", 
+      "caption": "Ace (v3.2.x)", 
       "type": "dual-project", 
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
         "primaryBranchName": "hydrogen",
         "secondaryBuildId": "Ace_Deploy_Daily_Hydrogen",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
-      "caption": "Ace (indigo)", 
+      "caption": "Ace (v4.0.x)", 
       "type": "dual-project", 
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
         "primaryBranchName": "indigo",
         "secondaryBuildId": "Ace_Deploy_Daily_Indigo",
-        "secondaryBranchName": null
+        "secondaryBranchName": "<default>"
       }
     },
     {
-      "caption": "Ace (bowser)", 
+      "caption": "Ace (v4.1.x)", 
       "type": "dual-project", 
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
         "primaryBranchName": "bowser",
-        "secondaryBuildId": "Ace_Deploy_Daily_Bowser",
-        "secondaryBranchName": null
+        "secondaryBuildId": "Ace_Deploy_Daily_Bowser"
       }
     },
     {
-      "caption": "Ace End To End", 
-      "type": "project", 
+      "caption": "Ace (v5.0.x)", 
+      "type": "dual-project", 
       "config": {
-        "buildId": "Ace_Deploy_EndToEnd",
-        "branchName": null
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": "v5.0.x",
+        "secondaryBuildId": "Ace_Deploy_v50x"
       }
     }
   ]
