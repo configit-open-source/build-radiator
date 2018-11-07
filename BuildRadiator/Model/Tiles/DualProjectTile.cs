@@ -9,9 +9,9 @@ namespace Configit.BuildRadiator.Model {
       Config = new DualProjectTileConfig {
         SecondaryCaption = secondaryCaption,
         PrimaryBuildId = primaryBuildId,
-        PrimaryBranchName = !string.IsNullOrWhiteSpace( primaryBranchName ) ? primaryBranchName : BuildService.DefaultBranchName,
+        PrimaryBranchName = primaryBranchName,
         SecondaryBuildId = secondaryBuildId,
-        SecondaryBranchName = !string.IsNullOrWhiteSpace( secondaryBranchName ) ? secondaryBranchName : BuildService.DefaultBranchName
+        SecondaryBranchName = secondaryBranchName
       };
     }
   }

@@ -90,9 +90,10 @@ namespace Configit.BuildRadiator.Helpers {
     }
 
     private static string BuildUrl( string baseUrl, string branchName ) {
-      var delimeter = baseUrl.Contains( "?" ) ? "&" : "?";
+      var delimiter = baseUrl.Contains( "?" ) ? "&" : "?";
+      var branchQueryString = !string.IsNullOrWhiteSpace( branchName ) ? $"{delimiter}branch={Uri.EscapeDataString( branchName )}" : null;
 
-      return $"{baseUrl}{delimeter}branch={Uri.EscapeDataString( branchName )}";
+      return $"{baseUrl}{branchQueryString}";
     }
 
     private static DateTime GetEndDate( XmlNode buildInfo, bool isRunning ) {

@@ -8,7 +8,7 @@ namespace Configit.BuildRadiator.Model {
       Caption = caption;
       Config = new ProjectTileConfig {
         BuildId = buildId,
-        BranchName = !string.IsNullOrWhiteSpace( branchName ) ? branchName : BuildService.DefaultBranchName
+        BranchName = branchName
       };
     }
   }
