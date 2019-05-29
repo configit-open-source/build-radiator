@@ -1,15 +1,15 @@
 ﻿{
   "tiles": [
     {
-      "caption": "Vcdb", 
-      "type": "project", 
+      "caption": "Vcdb",
+      "type": "project",
       "config": {
         "buildId": "Vcdb_Commit",
         "branchName": "<default>"
       }
     },
     {
-      "caption": "Grid", 
+      "caption": "Grid",
       "type": "project",
       "config": {
         "buildId": "Grid_Commit",
@@ -17,82 +17,31 @@
       }
     },
     {
-      "caption": "Installer", 
-      "type": "project", 
+      "caption": "Installer",
+      "type": "project",
       "config": {
         "buildId": "Installer_Commit",
         "branchName": "<default>"
       }
     },
     {
-      "caption": "UK Time", 
-      "type": "clock", 
+      "caption": "UK Time",
+      "type": "clock",
       "config": {
         "timezone": "Europe/London"
       }
     },
     {
-      "caption": "Ngyn", 
-      "type": "project", 
-      "config": {
-        "buildId": "Ngyn_Commit",
-        "branchName": "<default>"
-      }
-    },
-    {
-      "caption": "Resource Repository", 
-      "type": "project", 
+      "caption": "Resource Repository",
+      "type": "project",
       "config": {
         "buildId": "LegacyResourceRepository_Commit",
-        "branchName": "<default>" 
-      }
-    },
-    {
-      "caption": "Ace Daily 01", 
-      "type": "project", 
-      "config": {
-        "buildId": "Ace_Deploy_Daily01",
         "branchName": "<default>"
       }
     },
     {
-      "caption": "Ace Daily 02", 
-      "type": "project", 
-      "config": {
-        "buildId": "Ace_Deploy_Daily02",
-        "branchName": "<default>"
-      }
-    },
-    {
-      "caption": "Ace End To End", 
-      "type": "project", 
-      "config": {
-        "buildId": "Ace_Deploy_EndToEnd",
-        "branchName": "<default>"
-      }
-    },
-    {
-      "caption": "Ace Upgrade", 
-      "type": "project", 
-      "config": {
-        "buildId": "Ace_Deploy_DailyUpgrade",
-        "branchName": "<default>"
-      }
-    },
-    {
-      "caption": "Ace Pricing (master)", 
-      "type": "dual-project", 
-      "config": {
-        "secondaryCaption": "Deploy",
-        "primaryBuildId": "AcePricing_Commit",
-        "primaryBranchName": "<default>",
-        "secondaryBuildId": "AcePricing_Deploy_Daily",
-        "secondaryBranchName": "<default>"
-      }
-    },
-    {
-      "caption": "Ace VT Publish (master)", 
-      "type": "dual-project", 
+      "caption": "Ace VT Publish (master)",
+      "type": "dual-project",
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "AceVtPublish_Commit",
@@ -102,16 +51,67 @@
       }
     },
     {
-      "caption": "Ace (master)", 
-      "type": "project", 
+      "caption": "Ace Daily 01",
+      "type": "project",
+      "config": {
+        "buildId": "Ace_Deploy_Daily01",
+        "branchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace Daily 02",
+      "type": "project",
+      "config": {
+        "buildId": "Ace_Deploy_Daily02",
+        "branchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace Daily 03",
+      "type": "project",
+      "config": {
+        "buildId": "Ace_Deploy_Daily03",
+        "branchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace End To End",
+      "type": "project",
+      "config": {
+        "buildId": "Ace_Deploy_EndToEnd",
+        "branchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace Upgrade",
+      "type": "project",
+      "config": {
+        "buildId": "Ace_Deploy_DailyUpgrade",
+        "branchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace Pricing (master)",
+      "type": "dual-project",
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "AcePricing_Commit",
+        "primaryBranchName": "<default>",
+        "secondaryBuildId": "AcePricing_Deploy_Daily",
+        "secondaryBranchName": "<default>"
+      }
+    },
+    {
+      "caption": "Ace (master)",
+      "type": "project",
       "config": {
         "buildId": "Ace_Commit",
         "branchName": "<default>"
       }
     },
     {
-      "caption": "Ace (v3.1.x)", 
-      "type": "dual-project", 
+      "caption": "Ace (v3.1.x)",
+      "type": "dual-project",
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
@@ -120,28 +120,8 @@
       }
     },
     {
-      "caption": "Ace (v3.2.x)", 
-      "type": "dual-project", 
-      "config": {
-        "secondaryCaption": "Deploy",
-        "primaryBuildId": "Ace_Commit",
-        "primaryBranchName": "v3.2.x",
-        "secondaryBuildId": "Ace_Deploy_v32x"
-      }
-    },
-    {
-      "caption": "Ace (v4.0.x)", 
-      "type": "dual-project", 
-      "config": {
-        "secondaryCaption": "Deploy",
-        "primaryBuildId": "Ace_Commit",
-        "primaryBranchName": "v4.0.x",
-        "secondaryBuildId": "Ace_Deploy_v40x"
-      }
-    },
-    {
-      "caption": "Ace (v4.1.x)", 
-      "type": "dual-project", 
+      "caption": "Ace (v4.1.x)",
+      "type": "dual-project",
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
@@ -150,13 +130,34 @@
       }
     },
     {
-      "caption": "Ace (v5.0.x)", 
-      "type": "dual-project", 
+      "caption": "Ace (v5.0.x)",
+      "type": "dual-project",
       "config": {
         "secondaryCaption": "Deploy",
         "primaryBuildId": "Ace_Commit",
         "primaryBranchName": "v5.0.x",
         "secondaryBuildId": "Ace_Deploy_v50x"
+      }
+    },
+    {
+      "caption": "Ace (v5.2.x)",
+      "type": "dual-project",
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "Ace_Commit",
+        "primaryBranchName": "v5.2.x",
+        "secondaryBuildId": "Ace_Deploy_v52x"
+      }
+    },
+    {
+      "caption": "Ace Installer",
+      "type": "dual-project",
+      "config": {
+        "secondaryCaption": "Deploy",
+        "primaryBuildId": "AceInstaller_Commit",
+        "primaryBranchName": "<default>",
+        "secondaryBuildId": "AceInstaller_Deploy_Daily",
+        "secondaryBranchName": "<default>"
       }
     }
   ]
