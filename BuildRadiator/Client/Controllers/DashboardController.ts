@@ -2,10 +2,27 @@
 
 var module = angular.module( 'BuildRadiator' );
 
-var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
-  var ctrl = this;
+var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, $timeout : angular.ITimeoutService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
+  const ctrl = this;
+  const timeoutInMinutes = 30;
 
   ctrl.committerLimit = 11;
+  ctrl.lastUpdated = new Date();
+  
+  let timerToken;
+
+  function refresh() {
+    $log.log( 'Reloading...' );
+    $window.location.reload();
+  }
+
+  function resetTimeout() {
+    ctrl.lastUpdated = new Date();
+    if( timerToken ) {
+      $timeout.cancel( timerToken );
+      timerToken = $timeout( refresh, timeoutInMinutes * 60 * 1000 );
+    }
+  }
 
   function onMessageUpdate( message ) {
     const tiles = ctrl.tiles.filter( t => t.type === 'message' && t.config.messageKey === message.key );
@@ -18,6 +35,8 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function onProjectUpdateError( build ) {
+    resetTimeout();
+
     const projectTiles = ctrl.tiles.filter( t =>
       t.type === 'project'
       && t.config.buildId === build.buildId
@@ -46,6 +65,8 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function onProjectUpdate( build ) {
+    resetTimeout();
+
     var projectTiles = ctrl.tiles.filter( t => 
       t.type === 'project'
       && t.config.buildId === build.id
@@ -147,6 +168,8 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
       MessageHub.connect( $scope, {
         update: onMessageUpdate
       } ).done( registerMessages );
+
+      resetTimeout();
     } );
   } );
 } 

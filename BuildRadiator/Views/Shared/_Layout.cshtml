@@ -15,7 +15,7 @@
   </style>
 </head>
 
-<body layout="column" layout-fill ng-controller="@ViewBag.AngularController as ctrl" class="@( !string.IsNullOrWhiteSpace( ViewBag.AngularApp ) ? "ng-cloak" : "" )">
+<body layout="row" layout-fill ng-controller="@ViewBag.AngularController as ctrl" class="@( !string.IsNullOrWhiteSpace( ViewBag.AngularApp ) ? "ng-cloak" : "" )">
   @RenderBody()
 
   <script type="text/javascript" src="@Url.MinifiedContent( "~/Client-Release/vendor.js" )"></script>
