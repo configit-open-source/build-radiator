@@ -2,22 +2,25 @@
 
 var module = angular.module( 'BuildRadiator' );
 
-var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, $interval : angular.IIntervalService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
-  var ctrl = this;
+var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, $timeout : angular.ITimeoutService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
+  const ctrl = this;
+  const timeoutInMinutes = 30;
 
   ctrl.committerLimit = 11;
   ctrl.lastUpdated = new Date();
+  
+  let timerToken;
 
-  const timeoutInMinutes = 30;
+  function refresh() {
+    $log.log( 'Reloading...' );
+    $window.location.reload();
+  }
 
-  $interval( statusCheck, timeoutInMinutes * 60 * 1000 );
-
-  function statusCheck() {
-    const threshold = window.moment().add( -timeoutInMinutes, 'm' ).toDate();
-
-    if( ctrl.lastUpdated < threshold ) {
-      $log.log( 'Reloading...' );
-      $window.location.reload();
+  function resetTimeout() {
+    ctrl.lastUpdated = new Date();
+    if( timerToken ) {
+      $timeout.cancel( timerToken );
+      timerToken = $timeout( refresh, timeoutInMinutes * 60 * 1000 );
     }
   }
 
@@ -32,7 +35,7 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function onProjectUpdateError( build ) {
-    ctrl.lastUpdated = new Date();
+    resetTimeout();
 
     const projectTiles = ctrl.tiles.filter( t =>
       t.type === 'project'
@@ -62,7 +65,7 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function onProjectUpdate( build ) {
-    ctrl.lastUpdated = new Date();
+    resetTimeout();
 
     var projectTiles = ctrl.tiles.filter( t => 
       t.type === 'project'
@@ -165,6 +168,8 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
       MessageHub.connect( $scope, {
         update: onMessageUpdate
       } ).done( registerMessages );
+
+      resetTimeout();
     } );
   } );
 } 
