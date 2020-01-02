@@ -2,10 +2,24 @@
 
 var module = angular.module( 'BuildRadiator' );
 
-var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
+var dashboardController = function( $scope, $window : angular.IWindowService, $log : angular.ILogService, $sce : angular.ISCEService, $interval : angular.IIntervalService, TileLayoutHub, BuildHub, MessageHub, TileLayoutConfig ) {
   var ctrl = this;
 
   ctrl.committerLimit = 11;
+  ctrl.lastUpdated = new Date();
+
+  const timeoutInMinutes = 30;
+
+  $interval( statusCheck, timeoutInMinutes * 60 * 1000 );
+
+  function statusCheck() {
+    const threshold = window.moment().add( -timeoutInMinutes, 'm' ).toDate();
+
+    if( ctrl.lastUpdated < threshold ) {
+      $log.log( 'Reloading...' );
+      $window.location.reload();
+    }
+  }
 
   function onMessageUpdate( message ) {
     const tiles = ctrl.tiles.filter( t => t.type === 'message' && t.config.messageKey === message.key );
@@ -18,6 +32,8 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function onProjectUpdateError( build ) {
+    ctrl.lastUpdated = new Date();
+
     const projectTiles = ctrl.tiles.filter( t =>
       t.type === 'project'
       && t.config.buildId === build.buildId
@@ -46,6 +62,8 @@ var dashboardController = function( $scope, $window : angular.IWindowService, $l
   };
 
   function onProjectUpdate( build ) {
+    ctrl.lastUpdated = new Date();
+
     var projectTiles = ctrl.tiles.filter( t => 
       t.type === 'project'
       && t.config.buildId === build.id

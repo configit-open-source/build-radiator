@@ -40,7 +40,11 @@ namespace Configit.BuildRadiator.Helpers {
 
       var parser = new BuildParser( buildInfoTask.Result, investigationInfoTask.Result, changesSinceFailureInfoTask.Result );
 
-      return parser.Parse();
+      var build = parser.Parse();
+
+      client.Dispose();
+
+      return build;
     }
 
     private static async Task<XmlDocument> GetBuildInfo( HttpClient client, string buildId, string branchName ) {

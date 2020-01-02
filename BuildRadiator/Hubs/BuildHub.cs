@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,11 +10,16 @@ using Configit.BuildRadiator.Model.Builds;
 using Microsoft.AspNet.SignalR;
 
 namespace Configit.BuildRadiator.Hubs {
-  public class BuildHub: Hub<IBuildHubClient> {
+  public class BuildHub : Hub<IBuildHubClient> {
     private static readonly TimeSpan RefreshTimer = TimeSpan.FromSeconds( 10 );
+
     private static readonly ConcurrentDictionary<(string buildId, string branchName), int> GroupCounts;
+
     private static readonly ConcurrentDictionary<(string buildId, string branchName), Build> PreviousBuild;
+
     private static readonly BuildService BuildService;
+
+    private static readonly Timer Timer;
 
     static BuildHub() {
       GroupCounts = new ConcurrentDictionary<(string buildId, string branchName), int>();
@@ -22,24 +28,31 @@ namespace Configit.BuildRadiator.Hubs {
       var authHeader = EncodeBase64( ConfigurationManager.AppSettings["TeamCityUser"] + ":" + ConfigurationManager.AppSettings["TeamCityPassword"] );
       BuildService = new BuildService( ConfigurationManager.AppSettings["TeamCityUrl"], authHeader );
 
-      var timer = new Timer( RefreshTimer.TotalMilliseconds );
-      timer.Elapsed += TimerOnElapsed;
-      timer.Start();
+      Timer = new Timer( RefreshTimer.TotalMilliseconds );
+      Timer.AutoReset = false;
+      Timer.Elapsed += TimerOnElapsed;
+      Timer.Start();
     }
 
     private static void TimerOnElapsed( object sender, ElapsedEventArgs e ) {
+      var tasks = new List<Task>();
+
       foreach ( var project in GroupCounts.Keys ) {
         if ( GroupCounts.TryGetValue( project, out var count ) && count > 0 ) {
-          RefreshProject( project );
+          tasks.Add( RefreshProject( project ) );
         }
       }
+
+      Task.WaitAll( tasks.ToArray() );
+
+      Timer.Start();
     }
 
     public void Register( string buildId, string branchName ) {
       var groupName = BuildGroupName( buildId, branchName );
       Groups.Add( Context.ConnectionId, groupName );
 
-      var groupTuple = (buildId, branchName);
+      var groupTuple = ( buildId, branchName );
       GroupCounts.AddOrUpdate( groupTuple, key => 1, ( key, value ) => value + 1 );
       RefreshProject( groupTuple, true );
     }
@@ -48,34 +61,31 @@ namespace Configit.BuildRadiator.Hubs {
       var groupName = BuildGroupName( buildId, branchName );
       Groups.Remove( Context.ConnectionId, groupName );
 
-      var groupTuple = (buildId, branchName);
+      var groupTuple = ( buildId, branchName );
       GroupCounts.AddOrUpdate( groupTuple, key => 0, ( key, value ) => value - 1 );
     }
 
-    private static void RefreshProject( (string buildId, string branchName) project, bool forceRefresh = false ) {
+    private static async Task RefreshProject( (string buildId, string branchName) project, bool forceRefresh = false ) {
       PreviousBuild.TryGetValue( project, out var previousBuild );
 
-      Task.Run( async () => {
-        try {
-          var build = await BuildService.Get( project.buildId, project.branchName );
-          if ( !forceRefresh && BuildComparer.AreIdentical( build, previousBuild ) ) {
-            return;
-          }
-
-          PreviousBuild.AddOrUpdate( project, build, ( k, v ) => build );
-          Update( build );
+      try {
+        var build = await BuildService.Get( project.buildId, project.branchName );
+        if ( !forceRefresh && BuildComparer.AreIdentical( build, previousBuild ) ) {
+          return;
         }
-        catch ( Exception ex ) {
-          var buildError = new BuildError {
-            BuildId = project.buildId,
-            BranchName = project.branchName,
-            Error = ex
-          };
 
-          PreviousBuild.TryRemove( project, out previousBuild );
-          UpdateError( buildError );
-        }
-      } );
+        PreviousBuild.AddOrUpdate( project, build, ( k, v ) => build );
+        Update( build );
+      } catch ( Exception ex ) {
+        var buildError = new BuildError {
+          BuildId = project.buildId,
+          BranchName = project.branchName,
+          Error = ex
+        };
+
+        PreviousBuild.TryRemove( project, out previousBuild );
+        UpdateError( buildError );
+      }
     }
 
     internal static void Update( Build build ) {
