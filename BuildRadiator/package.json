@@ -14,7 +14,7 @@
     "@types/angular": "^1.6.28",
     "@types/es6-shim": "0.31.35",
     "del": "3.0.0",
-    "gulp": "3.9.1",
+    "gulp": "4.0.2",
     "gulp-clean-css": "3.7.0",
     "gulp-css-url-adjuster": "0.2.3",
     "gulp-concat": "2.6.1",
